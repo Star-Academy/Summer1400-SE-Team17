@@ -29,15 +29,20 @@ public class Parser {
     }
 
     public static Collection<Data> parseSentence(String sentence) {
+        sentence = sentence.toLowerCase();
+        sentence = sentence.replaceAll("[^\\w]", " ");
+
         HashMap<String, Data> data = new HashMap<>();
+
         String[] words = TOKENIZER.tokenize(sentence);
         String[] POSTagsOfWords = POS_TAGGER.tag(words);
         List<String> wordList = Arrays.asList(words);
         List<String> POSTagsList = Arrays.asList(POSTagsOfWords);
+
         int indexOfWord = 0;
         for (int i = 0; i < wordList.size(); i++) {
             String tag = POSTagsList.get(i);
-            if (tag.matches("[A-Z$]+")) {
+            if (tag.matches("[A-Z$]+") && !tag.equals("$")) {
                 if (isPOSTagValuable(tag)) {
                     String stemmedWord = stemWord(wordList.get(i), POSTagsList.get(i));
                     Data data1 = data.get(stemmedWord);
@@ -72,8 +77,8 @@ public class Parser {
                     wordToData.put(data.getWord(), newData);
                 }
                 Data existingData = wordToData.get(data.getWord());
-                newWordsCount += existingData.getPositions().size();
-                for (int position : existingData.getPositions())
+                newWordsCount += data.getPositions().size();
+                for (int position : data.getPositions())
                     existingData.getPositions().add(wordsCount + position);
             }
             wordsCount += newWordsCount;
@@ -88,6 +93,10 @@ public class Parser {
 
     public static String stemWord(String word, String POSTag) {
         return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POSTag})[0];
+    }
+
+    public static void main(String[] args) {
+        System.out.println(((Data)parseSentence("ali hi").toArray()[0]).getPositions());
     }
 
 
