@@ -3,6 +3,7 @@ import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
+import opennlp.tools.stemmer.PorterStemmer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
@@ -16,6 +17,7 @@ public class Parser {
     private static SentenceDetectorME SENTENCE_DETECTOR;
     private static TokenizerME TOKENIZER;
     private static POSTaggerME POS_TAGGER;
+    private static final PorterStemmer PORTER_STEMMER = new PorterStemmer();
 
     static {
         try {
@@ -93,6 +95,9 @@ public class Parser {
 
     public static String stemWord(String word, String POSTag) {
         return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POSTag})[0];
+    }
+    public static String stemWord(String word) {
+        return PORTER_STEMMER.stem(word);
     }
 
     public static void main(String[] args) {

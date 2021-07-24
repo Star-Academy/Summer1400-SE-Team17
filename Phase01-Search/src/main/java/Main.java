@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main {
@@ -8,10 +9,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             String command = scanner.nextLine().trim();
-            ArrayList<Data> searchResult = InvertedIndex.search(command);
-            for (int i = 0; i < searchResult.size(); i++) {
-                if (i > 5) break;
-                System.out.println(searchResult.get(i).getDocument().getContent());
+            HashSet<Integer> searchResult = InvertedIndex.search(command);
+            int count = 0;
+            for(int documentId : searchResult){
+                if (++ count > 5) break;
+                Data data = new Data();
+                data.setIndexDocument(documentId);
+                System.out.println(data.getDocument().getContent());
                 System.out.println("####################################################################");
             }
         }
