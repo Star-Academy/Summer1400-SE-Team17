@@ -35,7 +35,7 @@ public class Parser {
                     result.add(newData);
                     newData.setWord(data.getWord());
                     newData.setIndexDocument(document.getId());
-                    wordToData.put(data.getWord(), new Data());
+                    wordToData.put(data.getWord(), newData);
                 }
                 Data existingData = wordToData.get(data.getWord());
                 newWordsCount += existingData.getPositions().size();

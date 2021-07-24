@@ -1,4 +1,6 @@
 
+import lombok.SneakyThrows;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -6,7 +8,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class FileReader {
-    public static ArrayList<Document> getDocsInDirectory(String directoryLocation) throws IOException, URISyntaxException {
+    @SneakyThrows
+    public static ArrayList<Document> getDocsInDirectory(String directoryLocation) {
         ArrayList<Document> result = new ArrayList<>();
         File directory = new File(FileReader.class.getResource(directoryLocation).toURI().getPath());
         File[] filesList = directory.listFiles();
