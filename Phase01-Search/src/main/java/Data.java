@@ -12,4 +12,18 @@ public class Data {
     public Document getDocument() {
         return null;
     }
+    public Data(String word,int indexDocument) {
+        this.word = word;
+        this.indexDocument = indexDocument;
+        positions = new ArrayList<>();
+    }
+
+    public Data(String word) {
+        this.word = word;
+        positions = new ArrayList<>();
+    }
+
+    public void addPosition(int position) {
+        positions.add(position);
+    }
 }
