@@ -17,6 +17,9 @@ public class Data {
         this.indexDocument = indexDocument;
         positions = new ArrayList<>();
     }
+    public Data() {
+
+    }
 
     public Data(String word) {
         this.word = word;

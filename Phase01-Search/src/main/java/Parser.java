@@ -22,6 +22,7 @@ public class Parser {
             SENTENCE_DETECTOR = new SentenceDetectorME(new SentenceModel(Parser.class.getResourceAsStream("Models/" + "en-sent" + ".bin")));
             POS_TAGGER = new POSTaggerME(new POSModel(Parser.class.getResourceAsStream("Models/" + "en-pos-maxent" + ".bin")));
             TOKENIZER = new TokenizerME(new TokenizerModel(Parser.class.getResourceAsStream("Models/" + "en-token" + ".bin")));
+            DICTIONARY_LEMMATIZER = new DictionaryLemmatizer(Parser.class.getResourceAsStream("Models/" + "en-lemmatizer.dict" + ".txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,13 +37,14 @@ public class Parser {
         int indexOfWord = 0;
         for (int i = 0; i < wordList.size(); i++) {
             String tag = POSTagsList.get(i);
-            if (tag.matches("[A-Z]+")) {
+            if (tag.matches("[A-Z$]+")) {
                 if (isPOSTagValuable(tag)) {
                     String stemmedWord = stemWord(wordList.get(i), POSTagsList.get(i));
                     Data data1 = data.get(stemmedWord);
                     if (data1 != null) {
                         data1.addPosition(indexOfWord);
                     } else {
+                        if (stemmedWord.equals("O")) stemmedWord = wordList.get(i);
                         Data data2 = new Data(stemmedWord);
                         data2.addPosition(indexOfWord);
                         data.put(stemmedWord, data2);
@@ -71,7 +73,7 @@ public class Parser {
                 }
                 Data existingData = wordToData.get(data.getWord());
                 newWordsCount += existingData.getPositions().size();
-                for(int position : existingData.getPositions())
+                for (int position : existingData.getPositions())
                     existingData.getPositions().add(wordsCount + position);
             }
             wordsCount += newWordsCount;
@@ -81,11 +83,12 @@ public class Parser {
 
 
     private static boolean isPOSTagValuable(String POSTag) {
-        return !(POSTag.equals("DT") && POSTag.equals("IN") && POSTag.equals("TO"));
+        return !(POSTag.equals("DT") || POSTag.equals("IN") || POSTag.equals("TO") || POSTag.equals("POS") || POSTag.equals("PRP")|| POSTag.equals("PRP$"));
     }
 
     public static String stemWord(String word, String POSTag) {
         return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POSTag})[0];
     }
+
 
 }
