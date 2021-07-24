@@ -6,11 +6,10 @@ import opennlp.tools.sentdetect.SentenceModel;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
-import javax.print.Doc;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.*;
+
 
 public class Parser {
     private static DictionaryLemmatizer DICTIONARY_LEMMATIZER;
@@ -26,11 +25,6 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public static Data[] parseDocument(Document document) {
-        return null;
     }
 
     public static Collection<Data> parseSentence(String sentence) {
@@ -60,6 +54,32 @@ public class Parser {
         return data.values();
     }
 
+    public static ArrayList<Data> parseDocument(Document document) {
+        ArrayList<Data> result = new ArrayList<>();
+        HashMap<String, Data> wordToData = new HashMap<>();
+        String[] sentences = SENTENCE_DETECTOR.sentDetect(document.getContent());
+        int wordsCount = 0;
+        for (String sentence : sentences) {
+            int newWordsCount = 0;
+            for (Data data : parseSentence(sentence)) {
+                if (wordToData.get(data.getWord()) == null) {
+                    Data newData = new Data();
+                    result.add(newData);
+                    newData.setWord(data.getWord());
+                    newData.setIndexDocument(document.getId());
+                    wordToData.put(data.getWord(), newData);
+                }
+                Data existingData = wordToData.get(data.getWord());
+                newWordsCount += existingData.getPositions().size();
+                for(int position : existingData.getPositions())
+                    existingData.getPositions().add(wordsCount + position);
+            }
+            wordsCount += newWordsCount;
+        }
+        return result;
+    }
+
+
     private static boolean isPOSTagValuable(String POSTag) {
         return !(POSTag.equals("DT") && POSTag.equals("IN") && POSTag.equals("TO"));
     }
@@ -67,8 +87,5 @@ public class Parser {
     public static String stemWord(String word, String POSTag) {
         return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POSTag})[0];
     }
-
-    
-
 
 }
