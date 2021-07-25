@@ -31,7 +31,7 @@ public class Main {
     @SneakyThrows
     private static void init() {
         System.out.println("initializing database...");
-        InvertedIndex invertedIndex = new InvertedIndex();
+        InvertedIndex.load();
         System.out.println("initializing finished...");
         scanner = new Scanner(System.in);
         scanner = scanner.skip(".*");

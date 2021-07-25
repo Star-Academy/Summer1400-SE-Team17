@@ -12,12 +12,9 @@ import java.util.HashSet;
 public class InvertedIndex {
     public static HashMap<String, ArrayList<Data>> dataBase;
 
-    static {
-        load();
-    }
 
     @SneakyThrows
-    private static void load() {
+    public static void load() {
         Gson gson = new Gson();
         try {
             FileReader reader = new FileReader("main/resources/data.json");
