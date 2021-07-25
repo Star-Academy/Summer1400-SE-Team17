@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class InvertedIndex {
-    public static HashMap<String, ArrayList<Data>> dataBase;
 
+public class InvertedIndex {
+    private static HashMap<String, ArrayList<Data>> dataBase;
 
     @SneakyThrows
     public static void load() {
@@ -27,7 +27,6 @@ public class InvertedIndex {
             gson.toJson(dataBase, writer);
             writer.close();
         }
-
     }
 
     private static HashMap<String, ArrayList<Data>> getDocuments() {
@@ -42,35 +41,56 @@ public class InvertedIndex {
     }
 
     public static HashSet<Integer> search(String command) {
-        String[] words = command.trim().toLowerCase().split(" ");
+        String[] words = getWords(command);
         HashSet<Integer> result = new HashSet<>();
+        stemWords(words);
+
+        addEssentialWordsToResult(words, result);
+        addWillingWordsToResult(words, result);
+        removeBannedWordsFromResult(words, result);
+
+        return result;
+    }
+
+    private static void removeBannedWordsFromResult(String[] words, HashSet<Integer> result) {
+        for (String word : words)
+            if (word.charAt(0) == '-')
+                for (Data data : dataBase.getOrDefault(word.substring(1), new ArrayList<>()))
+                    result.remove(data.getIndexDocument());
+    }
+
+    private static void addWillingWordsToResult(String[] words, HashSet<Integer> result) {
+        for (String word : words)
+            if (word.charAt(0) == '+')
+                for (Data data : dataBase.getOrDefault(word.substring(1), new ArrayList<>()))
+                    result.add(data.getIndexDocument());
+    }
+
+    private static void addEssentialWordsToResult(String[] words, HashSet<Integer> result) {
         for (int i = 0; i < words.length; ++i) {
-            if(words[i].charAt(0) == '+' || words[i].charAt(0) == '-')
-                words[i] = words[i].charAt(0) + Parser.stemWord(words[i].substring(1));
-            else
-                words[i] = Parser.stemWord(words[i]);
-        }
-        for (int i = 0; i < words.length; ++i) {
-            System.out.println(words[i]);
-            if(words[i].charAt(0) == '+' || words[i].charAt(0) == '-')
-                continue ;
+            if (words[i].charAt(0) == '+' || words[i].charAt(0) == '-')
+                continue;
             String word = words[i];
             HashSet<Integer> documentsWithWord = new HashSet<>();
             for (Data data : dataBase.getOrDefault(word, new ArrayList<>()))
                 documentsWithWord.add(data.getIndexDocument());
             if (i == 0)
-                result = documentsWithWord;
+                result.addAll(documentsWithWord);
             else
                 result.retainAll(documentsWithWord);
         }
-        for (String word : words)
-            if (word.charAt(0) == '+')
-                for (Data data : dataBase.getOrDefault(word.substring(1), new ArrayList<>()))
-                    result.add(data.getIndexDocument());
-        for (String word : words)
-            if (word.charAt(0) == '-')
-                for (Data data : dataBase.getOrDefault(word.substring(1), new ArrayList<>()))
-                    result.remove(data.getIndexDocument());
-        return result;
+    }
+
+    private static void stemWords(String[] words) {
+        for (int i = 0; i < words.length; ++i) {
+            if (words[i].charAt(0) == '+' || words[i].charAt(0) == '-')
+                words[i] = words[i].charAt(0) + Parser.stemWord(words[i].substring(1));
+            else
+                words[i] = Parser.stemWord(words[i]);
+        }
+    }
+
+    private static String[] getWords(String command) {
+        return command.trim().toLowerCase().split(" ");
     }
 }

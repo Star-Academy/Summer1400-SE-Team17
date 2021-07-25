@@ -1,21 +1,18 @@
 import lombok.SneakyThrows;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.*;
 
 public class Main {
-    private static Scanner scanner;
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static void main(String[] args) {
         init();
-        run();
+        run(getScanner());
     }
 
-    private static void run() {
+    private static void run(Scanner scanner) {
         while (true) {
             String command = scanner.nextLine().trim();
+            if (command.equals("--exit")) return;
             HashSet<Integer> searchResult = InvertedIndex.search(command);
             int count = 0;
             for (int documentId : searchResult) {
@@ -33,9 +30,13 @@ public class Main {
         System.out.println("initializing database...");
         InvertedIndex.load();
         System.out.println("initializing finished...");
-        scanner = new Scanner(System.in);
+    }
+
+    private static Scanner getScanner() {
+        Scanner scanner = new Scanner(System.in);
         scanner = scanner.skip(".*");
         scanner.next();
         scanner = new Scanner(System.in);
+        return scanner;
     }
 }

@@ -13,6 +13,6 @@ public class Document {
     }
 
     public static ArrayList<Document> getDocuments() {
-      return FileReader.getDocsInDirectory("EnglishData");
+      return DatabaseReader.getDocsInDirectory("EnglishData");
     }
 }

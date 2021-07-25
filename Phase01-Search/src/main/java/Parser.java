@@ -3,7 +3,6 @@ import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
-import opennlp.tools.stemmer.PorterStemmer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
@@ -17,7 +16,6 @@ public class Parser {
     private static SentenceDetectorME SENTENCE_DETECTOR;
     private static TokenizerME TOKENIZER;
     private static POSTaggerME POS_TAGGER;
-    private static final PorterStemmer PORTER_STEMMER = new PorterStemmer();
 
     static {
         try {
@@ -30,9 +28,30 @@ public class Parser {
         }
     }
 
+    public static Collection<Data> parseDocument(Document document) {
+        HashMap<String, Data> wordToData = new HashMap<>();
+        String[] sentences = SENTENCE_DETECTOR.sentDetect(document.getContent());
+        int wordsCount = 0;
+        for (String sentence : sentences) {
+            int newWordsCount = 0;
+            for (Data data : parseSentence(sentence)) {
+                String word = data.getWord();
+                int id = document.getId();
+                if (wordToData.get(data.getWord()) == null) {
+                    wordToData.put(word, new Data(word, id));
+                }
+                Data existingData = wordToData.get(word);
+                newWordsCount += data.getPositions().size();
+                for (int position : data.getPositions())
+                    existingData.getPositions().add(wordsCount + position);
+            }
+            wordsCount += newWordsCount;
+        }
+        return wordToData.values();
+    }
+
     public static Collection<Data> parseSentence(String sentence) {
-        sentence = sentence.toLowerCase();
-        sentence = sentence.replaceAll("[^\\w]", " ");
+        sentence = modifySentence(sentence);
 
         HashMap<String, Data> data = new HashMap<>();
 
@@ -44,18 +63,12 @@ public class Parser {
         int indexOfWord = 0;
         for (int i = 0; i < wordList.size(); i++) {
             String tag = POSTagsList.get(i);
+            String word = wordList.get(i);
             if (tag.matches("[A-Z$]+") && !tag.equals("$")) {
                 if (isPOSTagValuable(tag)) {
-                    String stemmedWord = stemWord(wordList.get(i), POSTagsList.get(i));
-                    Data data1 = data.get(stemmedWord);
-                    if (data1 != null) {
-                        data1.addPosition(indexOfWord);
-                    } else {
-                        if (stemmedWord.equals("O")) stemmedWord = wordList.get(i);
-                        Data data2 = new Data(stemmedWord);
-                        data2.addPosition(indexOfWord);
-                        data.put(stemmedWord, data2);
-                    }
+                    String stemmedWord = stemWord(word, tag);
+                    if (stemmedWord.equals("O")) stemmedWord = word;
+                    addData(data, indexOfWord, stemmedWord);
                 }
                 indexOfWord++;
             }
@@ -63,42 +76,10 @@ public class Parser {
         return data.values();
     }
 
-    public static ArrayList<Data> parseDocument(Document document) {
-        ArrayList<Data> result = new ArrayList<>();
-        HashMap<String, Data> wordToData = new HashMap<>();
-        String[] sentences = SENTENCE_DETECTOR.sentDetect(document.getContent());
-        int wordsCount = 0;
-        for (String sentence : sentences) {
-            int newWordsCount = 0;
-            for (Data data : parseSentence(sentence)) {
-                if (wordToData.get(data.getWord()) == null) {
-                    Data newData = new Data();
-                    result.add(newData);
-                    newData.setWord(data.getWord());
-                    newData.setIndexDocument(document.getId());
-                    wordToData.put(data.getWord(), newData);
-                }
-                Data existingData = wordToData.get(data.getWord());
-                newWordsCount += data.getPositions().size();
-                for (int position : data.getPositions())
-                    existingData.getPositions().add(wordsCount + position);
-            }
-            wordsCount += newWordsCount;
-        }
-        return result;
-    }
-
-
-    private static boolean isPOSTagValuable(String POSTag) {
-        return !(POSTag.equals("DT") || POSTag.equals("IN") || POSTag.equals("TO") || POSTag.equals("POS") || POSTag.equals("PRP")|| POSTag.equals("PRP$"));
-    }
 
     public static String stemWord(String word, String POSTag) {
         return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POSTag})[0];
     }
-//    public static String stemWord(String word) {
-//        return PORTER_STEMMER.stem(word);
-//    }
 
     public static String stemWord(String word) {
         String lemma = DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POS_TAGGER.tag(new String[]{word})[0]})[0];
@@ -106,6 +87,25 @@ public class Parser {
     }
 
 
+    private static void addData(HashMap<String, Data> data, int indexOfWord, String stemmedWord) {
+        Data data1 = data.get(stemmedWord);
+        if (data1 != null) {
+            data1.addPosition(indexOfWord);
+        } else {
+            Data data2 = new Data(stemmedWord);
+            data2.addPosition(indexOfWord);
+            data.put(stemmedWord, data2);
+        }
+    }
 
+    private static String modifySentence(String sentence) {
+        sentence = sentence.toLowerCase();
+        sentence = sentence.replaceAll("[^\\w]", " ");
+        return sentence;
+    }
+
+    private static boolean isPOSTagValuable(String POSTag) {
+        return !(POSTag.equals("DT") || POSTag.equals("IN") || POSTag.equals("TO") || POSTag.equals("POS") || POSTag.equals("PRP") || POSTag.equals("PRP$"));
+    }
 
 }
