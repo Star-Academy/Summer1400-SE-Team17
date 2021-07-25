@@ -100,9 +100,11 @@ public class Parser {
         return PORTER_STEMMER.stem(word);
     }
 
-    public static void main(String[] args) {
-        System.out.println(((Data)parseSentence("ali hi").toArray()[0]).getPositions());
+    public static String stemWord(String word) {
+        return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POS_TAGGER.tag(new String[]{word})[0]})[0];
     }
+
+
 
 
 }
