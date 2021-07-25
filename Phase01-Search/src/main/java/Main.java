@@ -12,11 +12,15 @@ public class Main {
     private static void run(Scanner scanner) {
         while (true) {
             String command = scanner.nextLine().trim();
-            if (command.equals("--exit")) return;
+            if (command.equals("--exit")) {
+                return;
+            }
             HashSet<Integer> searchResult = InvertedIndex.search(command);
             int count = 0;
             for (int documentId : searchResult) {
-                if (++count > 5) break;
+                if (++count > 5) {
+                    break;
+                }
                 Data data = new Data();
                 data.setIndexDocument(documentId);
                 System.out.println(data.getDocument().getContent());

@@ -53,40 +53,52 @@ public class InvertedIndex {
     }
 
     private static void removeBannedWordsFromResult(String[] words, HashSet<Integer> result) {
-        for (String word : words)
-            if (word.charAt(0) == '-')
-                for (Data data : dataBase.getOrDefault(word.substring(1), new ArrayList<>()))
+        for (String word : words) {
+            if (word.charAt(0) == '-') {
+                for (Data data : dataBase.getOrDefault(word.substring(1), new ArrayList<>())) {
                     result.remove(data.getIndexDocument());
+                }
+            }
+        }
     }
 
     private static void addWillingWordsToResult(String[] words, HashSet<Integer> result) {
-        for (String word : words)
-            if (word.charAt(0) == '+')
-                for (Data data : dataBase.getOrDefault(word.substring(1), new ArrayList<>()))
+        for (String word : words) {
+            if (word.charAt(0) == '+') {
+                for (Data data : dataBase.getOrDefault(word.substring(1), new ArrayList<>())) {
                     result.add(data.getIndexDocument());
+                }
+            }
+        }
     }
 
     private static void addEssentialWordsToResult(String[] words, HashSet<Integer> result) {
         for (int i = 0; i < words.length; ++i) {
-            if (words[i].charAt(0) == '+' || words[i].charAt(0) == '-')
+            if (words[i].charAt(0) == '+' || words[i].charAt(0) == '-') {
                 continue;
+            }
             String word = words[i];
             HashSet<Integer> documentsWithWord = new HashSet<>();
-            for (Data data : dataBase.getOrDefault(word, new ArrayList<>()))
+            for (Data data : dataBase.getOrDefault(word, new ArrayList<>())) {
                 documentsWithWord.add(data.getIndexDocument());
-            if (i == 0)
+            }
+            if (i == 0) {
                 result.addAll(documentsWithWord);
-            else
+            }
+            else {
                 result.retainAll(documentsWithWord);
+            }
         }
     }
 
     private static void stemWords(String[] words) {
         for (int i = 0; i < words.length; ++i) {
-            if (words[i].charAt(0) == '+' || words[i].charAt(0) == '-')
+            if (words[i].charAt(0) == '+' || words[i].charAt(0) == '-') {
                 words[i] = words[i].charAt(0) + Parser.stemWord(words[i].substring(1));
-            else
+            }
+            else {
                 words[i] = Parser.stemWord(words[i]);
+            }
         }
     }
 

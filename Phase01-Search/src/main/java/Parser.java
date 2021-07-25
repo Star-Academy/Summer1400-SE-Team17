@@ -42,8 +42,9 @@ public class Parser {
                 }
                 Data existingData = wordToData.get(word);
                 newWordsCount += data.getPositions().size();
-                for (int position : data.getPositions())
+                for (int position : data.getPositions()) {
                     existingData.getPositions().add(wordsCount + position);
+                }
             }
             wordsCount += newWordsCount;
         }
@@ -67,7 +68,9 @@ public class Parser {
             if (tag.matches("[A-Z$]+") && !tag.equals("$")) {
                 if (isPOSTagValuable(tag)) {
                     String stemmedWord = stemWord(word, tag);
-                    if (stemmedWord.equals("O")) stemmedWord = word;
+                    if (stemmedWord.equals("O")) {
+                        stemmedWord = word;
+                    }
                     addData(data, indexOfWord, stemmedWord);
                 }
                 indexOfWord++;
@@ -105,7 +108,12 @@ public class Parser {
     }
 
     private static boolean isPOSTagValuable(String POSTag) {
-        return !(POSTag.equals("DT") || POSTag.equals("IN") || POSTag.equals("TO") || POSTag.equals("POS") || POSTag.equals("PRP") || POSTag.equals("PRP$"));
+        return !(POSTag.equals("DT") ||
+                POSTag.equals("IN") ||
+                POSTag.equals("TO") ||
+                POSTag.equals("POS") ||
+                POSTag.equals("PRP") ||
+                POSTag.equals("PRP$"));
     }
 
 }
