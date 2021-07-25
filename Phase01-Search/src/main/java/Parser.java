@@ -96,12 +96,13 @@ public class Parser {
     public static String stemWord(String word, String POSTag) {
         return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POSTag})[0];
     }
-    public static String stemWord(String word) {
-        return PORTER_STEMMER.stem(word);
-    }
+//    public static String stemWord(String word) {
+//        return PORTER_STEMMER.stem(word);
+//    }
 
     public static String stemWord(String word) {
-        return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POS_TAGGER.tag(new String[]{word})[0]})[0];
+        String lemma = DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POS_TAGGER.tag(new String[]{word})[0]})[0];
+        return lemma.equals("O") ? word : lemma;
     }
 
 
