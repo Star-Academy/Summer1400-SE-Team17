@@ -1,6 +1,7 @@
 import lombok.SneakyThrows;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Scanner;
 
 public class Main {
 
@@ -24,7 +25,9 @@ public class Main {
                 Data data = new Data();
                 data.setIndexDocument(documentId);
                 System.out.println(data.getDocument().getContent());
-                System.out.println("#########################################################################################################################################################");
+                System.out.println("#######################################" +
+                        "################################################################" +
+                        "##################################################");
             }
         }
     }

@@ -7,9 +7,10 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
 import java.io.IOException;
-
-import java.util.*;
-
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 public class Parser {
     private static DictionaryLemmatizer DICTIONARY_LEMMATIZER;
@@ -19,10 +20,14 @@ public class Parser {
 
     static {
         try {
-            SENTENCE_DETECTOR = new SentenceDetectorME(new SentenceModel(Parser.class.getResourceAsStream("Models/" + "en-sent" + ".bin")));
-            POS_TAGGER = new POSTaggerME(new POSModel(Parser.class.getResourceAsStream("Models/" + "en-pos-maxent" + ".bin")));
-            TOKENIZER = new TokenizerME(new TokenizerModel(Parser.class.getResourceAsStream("Models/" + "en-token" + ".bin")));
-            DICTIONARY_LEMMATIZER = new DictionaryLemmatizer(Parser.class.getResourceAsStream("Models/" + "en-lemmatizer.dict" + ".txt"));
+            SENTENCE_DETECTOR = new SentenceDetectorME(new SentenceModel(
+                    Parser.class.getResourceAsStream("Models/" + "en-sent" + ".bin")));
+            POS_TAGGER = new POSTaggerME(
+                    new POSModel(Parser.class.getResourceAsStream("Models/" + "en-pos-maxent" + ".bin")));
+            TOKENIZER = new TokenizerME(
+                    new TokenizerModel(Parser.class.getResourceAsStream("Models/" + "en-token" + ".bin")));
+            DICTIONARY_LEMMATIZER = new DictionaryLemmatizer(
+                    Parser.class.getResourceAsStream("Models/" + "en-lemmatizer.dict" + ".txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,7 +90,8 @@ public class Parser {
     }
 
     public static String stemWord(String word) {
-        String lemma = DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POS_TAGGER.tag(new String[]{word})[0]})[0];
+        String lemma = DICTIONARY_LEMMATIZER.lemmatize(new String[]{word},
+                new String[]{POS_TAGGER.tag(new String[]{word})[0]})[0];
         return lemma.equals("O") ? word : lemma;
     }
 

@@ -18,10 +18,10 @@ public class DatabaseReader {
     }
 
     private static void addDocumentsToResult(ArrayList<Document> result, File[] filesList) throws IOException {
-        for(File file : filesList) {
+        for (File file : filesList) {
             String content = new String(Files.readAllBytes(file.toPath()));
             int id = Integer.parseInt(file.getName());
-            Document document = new Document(content , id);
+            Document document = new Document(content, id);
             result.add(document);
         }
     }
