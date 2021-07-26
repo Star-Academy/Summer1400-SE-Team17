@@ -6,6 +6,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Getter
 @Setter
@@ -18,6 +19,13 @@ public class Data {
         this.word = word;
         this.indexDocument = indexDocument;
         positions = new ArrayList<>();
+    }
+
+
+    public Data(String word,ArrayList<Integer> positions,int indexDocument) {
+        this.word = word;
+        this.positions = positions;
+        this.indexDocument = indexDocument;
     }
 
     public Data(String word) {
@@ -46,5 +54,11 @@ public class Data {
 
     public void addPosition(int position) {
         positions.add(position);
+    }
+
+    @Override
+    public String toString() {
+        return "Word: " + word + "| @Document: " + indexDocument + "| Had accord in: " +
+                Arrays.toString(positions.toArray());
     }
 }

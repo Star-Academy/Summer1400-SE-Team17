@@ -73,9 +73,6 @@ public class Parser {
             if (tag.matches("[A-Z$]+") && !tag.equals("$")) {
                 if (isPOSTagValuable(tag)) {
                     String stemmedWord = stemWord(word, tag);
-                    if (stemmedWord.equals("O")) {
-                        stemmedWord = word;
-                    }
                     addData(data, indexOfWord, stemmedWord);
                 }
                 indexOfWord++;
@@ -86,7 +83,11 @@ public class Parser {
 
 
     public static String stemWord(String word, String POSTag) {
-        return DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POSTag})[0];
+        String stemmedWord = DICTIONARY_LEMMATIZER.lemmatize(new String[]{word}, new String[]{POSTag})[0];
+        if (stemmedWord.equals("O")) {
+            stemmedWord = word;
+        }
+        return stemmedWord;
     }
 
     public static String stemWord(String word) {
@@ -110,7 +111,7 @@ public class Parser {
     private static String modifySentence(String sentence) {
         sentence = sentence.toLowerCase();
         sentence = sentence.replaceAll("[^\\w]", " ");
-        return sentence;
+        return sentence.trim();
     }
 
     private static boolean isPOSTagValuable(String POSTag) {
