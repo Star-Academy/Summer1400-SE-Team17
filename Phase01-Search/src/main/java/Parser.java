@@ -28,8 +28,7 @@ public class Parser {
                     new TokenizerModel(Parser.class.getResourceAsStream("Models/" + "en-token" + ".bin")));
             DICTIONARY_LEMMATIZER = new DictionaryLemmatizer(
                     Parser.class.getResourceAsStream("Models/" + "en-lemmatizer.dict" + ".txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 

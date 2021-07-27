@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -54,17 +53,49 @@ public class ParserTest {
 
     @Test
     public void parseSentenceTest() {
-        String simpleSentence = "Hi, Im home.";
-        String complexSentenceWithExtraDot = "Hi, my email address is BlahBlah@Gamil.com .";
-        String complexSentenceWithExtraPunctuation = "Hi, what is John's email address?!?!?!?!";
-        String complexSentenceWithPronouns = "Hi, his dog had ruined my beloved dolls then i have killed his dog.";
+        String testSentence = "Hi, his dog had ruined my beloved dolls then i have killed his dog and send the dogs image to BlahBlah@Gamil.com.";
         StringRunnable<Collection<Data>> parseSentence = Parser::parseSentence;
-        
+        String[] results = {
+                "Word: com| @Document: 0| Had accord in: [22]",
+                "Word: image| @Document: 0| Had accord in: [18]",
+                "Word: blahblah| @Document: 0| Had accord in: [20]",
+                "Word: doll| @Document: 0| Had accord in: [7]",
+                "Word: then| @Document: 0| Had accord in: [8]",
+                "Word: kill| @Document: 0| Had accord in: [11]",
+                "Word: beloved| @Document: 0| Had accord in: [6]",
+                "Word: gamil| @Document: 0| Had accord in: [21]",
+                "Word: and| @Document: 0| Had accord in: [14]",
+                "Word: have| @Document: 0| Had accord in: [3, 10]",
+                "Word: dog| @Document: 0| Had accord in: [2, 13, 17]",
+                "Word: ruin| @Document: 0| Had accord in: [4]",
+                "Word: send| @Document: 0| Had accord in: [15]"
+        };
+        HashSet<String> resultSet = new HashSet<>(Arrays.asList(results));
+        for (Data data : parseSentence.run(testSentence)) Assertions.assertTrue(resultSet.contains(data.toString()));
+    }
+
+    @Test
+    public void parseDocumentTest() {
+        Document document = new Document("salam salam. hello word nigga, iam doing fine. go go go. ha ha ha.",1);
+        Collection<Data> results = Parser.parseDocument(document);
+        String[] resultSetContent = {
+                "Word: fine| @Document: 1| Had accord in: [7]",
+                "Word: salam| @Document: 1| Had accord in: [0, 1]",
+                "Word: go| @Document: 1| Had accord in: [7, 8, 9]",
+                "Word: nigga| @Document: 1| Had accord in: [4]",
+                "Word: ha| @Document: 1| Had accord in: [10, 11, 12]",
+                "Word: hello| @Document: 1| Had accord in: [2]",
+                "Word: do| @Document: 1| Had accord in: [6]",
+                "Word: word| @Document: 1| Had accord in: [3]"
+        };
+        HashSet<String> resultSet = new HashSet<>(Arrays.asList(resultSetContent));
+        for (Data data : results) Assertions.assertTrue(resultSet.contains(data.toString()));
     }
 
     private interface StringRunnable<T> {
         T run(String s);
     }
+
 
     private static class DataMock extends Data {
 

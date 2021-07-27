@@ -41,9 +41,11 @@ public class Main {
 
     private static Scanner getScanner() {
         Scanner scanner = new Scanner(System.in);
-        scanner = scanner.skip(".*");
-        scanner.next();
-        scanner = new Scanner(System.in);
+        if (scanner.hasNext()) {
+            scanner = scanner.skip(".*");
+            scanner.next();
+            scanner = new Scanner(System.in);
+        }
         return scanner;
     }
 }
