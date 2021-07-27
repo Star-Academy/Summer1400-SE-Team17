@@ -96,18 +96,4 @@ public class ParserTest {
         T run(String s);
     }
 
-
-    private static class DataMock extends Data {
-
-        public DataMock (String word,int index) {
-            super(word,index);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof Data)) return false;
-            Data data = (Data) o;
-            return data.getWord().equals(this.getWord()) && data.getIndexDocument() == this.getIndexDocument();
-        }
-    }
 }
