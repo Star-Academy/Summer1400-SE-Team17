@@ -13,6 +13,7 @@ import java.util.HashSet;
 public class InvertedIndex {
     private static HashMap<String, ArrayList<Data>> dataBase;
 
+
     @SneakyThrows
     public static void load() {
         Gson gson = new Gson();
@@ -73,6 +74,7 @@ public class InvertedIndex {
     }
 
     private static void addEssentialWordsToResult(String[] words, HashSet<Integer> result) {
+        boolean isFirstEssential = true;
         for (int i = 0; i < words.length; ++i) {
             if (words[i].charAt(0) == '+' || words[i].charAt(0) == '-') {
                 continue;
@@ -82,10 +84,10 @@ public class InvertedIndex {
             for (Data data : dataBase.getOrDefault(word, new ArrayList<>())) {
                 documentsWithWord.add(data.getIndexDocument());
             }
-            if (i == 0) {
+            if (isFirstEssential) {
                 result.addAll(documentsWithWord);
-            }
-            else {
+                isFirstEssential = false;
+            } else {
                 result.retainAll(documentsWithWord);
             }
         }
