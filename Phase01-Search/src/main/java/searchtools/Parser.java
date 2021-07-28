@@ -28,7 +28,7 @@ public class Parser {
         try {
             SENTENCE_DETECTOR = new SentenceDetectorME(new SentenceModel(new File(DATA_ADDR + "en-sent" + ".bin")));
             POS_TAGGER = new POSTaggerME(
-                    new POSModel(new File(DATA_ADDR + "en-pos-maxent" + ".bin")));
+                    new POSModel(new File( DATA_ADDR + "en-pos-maxent" + ".bin")));
             TOKENIZER = new TokenizerME(
                     new TokenizerModel(new File(DATA_ADDR + "en-token" + ".bin")));
             DICTIONARY_LEMMATIZER = new DictionaryLemmatizer(
@@ -67,17 +67,16 @@ public class Parser {
 
         String[] words = TOKENIZER.tokenize(sentence);
         String[] POSTagsOfWords = POS_TAGGER.tag(words);
-        List<String> wordList = Arrays.asList(words);
-        List<String> POSTagsList = Arrays.asList(POSTagsOfWords);
-
-        int positionOfWord = 0;
-        for (int i = 0; i < wordList.size(); i++) {
-            String tag = POSTagsList.get(i);
-            String word = wordList.get(i);
-            if (isPOSTagValuable(tag)) {
-                String stemmedWord = stemWord(word, tag);
-                addData(data, positionOfWord, stemmedWord);
-                positionOfWord++;
+        int indexOfWord = 0;
+        for (int i = 0; i < words.length; i++) {
+            String tag = POSTagsOfWords[i];
+            String word = words[i];
+            if (tag.matches("[A-Z$]+") && !tag.equals("$")) {
+                if (isPOSTagValuable(tag)) {
+                    String stemmedWord = stemWord(word, tag);
+                    addData(data, indexOfWord, stemmedWord);
+                }
+                indexOfWord++;
             }
         }
         return data.values();
