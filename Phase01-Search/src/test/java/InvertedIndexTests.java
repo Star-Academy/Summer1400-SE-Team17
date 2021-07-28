@@ -3,6 +3,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import searchtools.InvertedIndex;
+import searchtools.Parser;
 import searchtools.Searcher;
 
 import java.lang.reflect.Field;
@@ -20,6 +21,7 @@ public class InvertedIndexTests {
         HashSet<Integer> searchResults = searcher.search(command);
         Assertions.assertEquals(expectedResultSize, searchResults.size());
         Assertions.assertTrue(searchResults.contains(expectedResult));
+        System.out.println(Parser.stemWord("hi"));
     }
 
     @Test
