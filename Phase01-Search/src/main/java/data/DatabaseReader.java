@@ -1,7 +1,10 @@
 package data;
 
+import lombok.SneakyThrows;
+
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -30,9 +33,8 @@ public class DatabaseReader {
         return document;
     }
 
-    private static File[] getFiles(String directoryLocation) throws URISyntaxException {
-        URL url = DatabaseReader.class.getResource(directoryLocation);
-        assert url != null;
+    private static File[] getFiles(String directoryLocation) throws URISyntaxException, MalformedURLException {
+        URL url = new File(directoryLocation).toURI().toURL();
         File directory = new File(url.toURI().getPath());
         File[] filesList = directory.listFiles();
         assert filesList != null;

@@ -10,6 +10,7 @@ import opennlp.tools.sentdetect.SentenceModel;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Parser {
+    private static final String DATA_ADDR = "src/main/resources/data/";
     private static DictionaryLemmatizer DICTIONARY_LEMMATIZER;
     private static SentenceDetectorME SENTENCE_DETECTOR;
     private static TokenizerME TOKENIZER;
@@ -24,14 +26,13 @@ public class Parser {
 
     static {
         try {
-            SENTENCE_DETECTOR = new SentenceDetectorME(new SentenceModel(
-                    Parser.class.getResourceAsStream("Models/" + "en-sent" + ".bin")));
+            SENTENCE_DETECTOR = new SentenceDetectorME(new SentenceModel(new File(DATA_ADDR + "en-sent" + ".bin")));
             POS_TAGGER = new POSTaggerME(
-                    new POSModel(Parser.class.getResourceAsStream("Models/" + "en-pos-maxent" + ".bin")));
+                    new POSModel(new File( DATA_ADDR + "en-pos-maxent" + ".bin")));
             TOKENIZER = new TokenizerME(
-                    new TokenizerModel(Parser.class.getResourceAsStream("Models/" + "en-token" + ".bin")));
+                    new TokenizerModel(new File(DATA_ADDR + "en-token" + ".bin")));
             DICTIONARY_LEMMATIZER = new DictionaryLemmatizer(
-                    Parser.class.getResourceAsStream("Models/" + "en-lemmatizer.dict" + ".txt"));
+                    new File(DATA_ADDR + "en-lemmatizer.dict" + ".txt"));
         } catch (IOException ignored) {
         }
     }

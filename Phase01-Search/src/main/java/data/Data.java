@@ -3,6 +3,7 @@ package data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -48,8 +49,7 @@ public class Data {
 
 
     private String getContent() throws URISyntaxException, IOException {
-        URL url = getClass().getResource(Document.getDATA_DIRECTORY() + "/" + indexDocument);
-        assert url != null;
+        URL url = new File(Document.getDATA_DIRECTORY() + "/" + indexDocument).toURI().toURL();
         Path path = Paths.get(url.toURI());
         return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
     }

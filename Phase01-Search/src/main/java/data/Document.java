@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @Getter
 public class Document {
     @Getter
-    private static final String DATA_DIRECTORY = "EnglishData";
+    private static final String DATA_DIRECTORY = "src/main/resources/searchtools/EnglishData";
     private final String content;
     private final int id;
 

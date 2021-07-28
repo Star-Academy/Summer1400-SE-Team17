@@ -24,7 +24,7 @@ public class DataBaseReaderTests {
                 " on netlanders to provide me with any additional information**news, stories, report**people you know with t" +
                 "his diseas**ideas, articles about Genzyme Corp, how to get a hold o   enough money to buy some, programs av" +
                 "ailable to help wit   costs**Basically ANY HELP YOU CAN OFFEThanks so very muchDeborah";
-        ArrayList<Document> documents = DatabaseReader.getDocsInDirectory("EnglishData");
+        ArrayList<Document> documents = DatabaseReader.getDocsInDirectory("searchtools/EnglishData");
         Assertions.assertEquals(documents.get(0).getContent() , expectedContent);
         Assertions.assertEquals(documents.get(0).getId() , expectedId);
     }
