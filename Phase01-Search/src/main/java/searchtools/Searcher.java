@@ -12,6 +12,7 @@ public class Searcher {
     public Searcher(InvertedIndex invertedIndex) {
         dataBase = invertedIndex.getDataBase();
     }
+
     public  HashSet<Integer> search(String command) {
         String[] words = getWords(command);
         stemWords(words);
@@ -30,7 +31,7 @@ public class Searcher {
         HashSet<Integer> result = new HashSet<>();
         for (String word : words) {
             if (isBannedWord(word)) {
-                result.addAll(getWordsDocs(word));
+                result.addAll(getWordsDocs(word.substring(1)));
             }
         }
         return result;
@@ -40,7 +41,7 @@ public class Searcher {
         HashSet<Integer> result = new HashSet<>();
         for (String word : words) {
             if (isWillingWord(word)) {
-                result.addAll(getWordsDocs(word));
+                result.addAll(getWordsDocs(word.substring(1)));
             }
         }
         return result;
@@ -66,6 +67,7 @@ public class Searcher {
 
     private HashSet<Integer> getWordsDocs(String word) {
         HashSet<Integer> result = new HashSet<>();
+        if (!Parser.isWordValuable(word)) return result;
         for (Data data : dataBase.getOrDefault(word, new ArrayList<>())) {
             result.add(data.getIndexDocument());
         }
@@ -94,4 +96,6 @@ public class Searcher {
     private  String[] getWords(String command) {
         return command.trim().toLowerCase().split(" ");
     }
+
+
 }

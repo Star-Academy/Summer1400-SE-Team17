@@ -100,6 +100,10 @@ public class Parser {
         return lemma.equals("O") ? word : lemma;
     }
 
+    public static boolean isWordValuable(String word) {
+        return isPOSTagValuable(POS_TAGGER.tag(new String[]{word})[0]);
+    }
+
 
     private static void addData(HashMap<String, Data> data, int indexOfWord, String stemmedWord) {
         Data data1 = data.get(stemmedWord);
