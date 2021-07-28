@@ -15,18 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Getter
-@Setter
+
 public class Data {
 
     private ArrayList<Integer> positions = new ArrayList<>();
     private transient String word;
+    @Setter
     private int indexDocument;
-
-    public Data(String word, ArrayList<Integer> positions, int indexDocument) {
-        this.word = word;
-        this.positions = positions;
-        this.indexDocument = indexDocument;
-    }
 
     public Data(String word, int indexDocument) {
         this.word = word;

@@ -21,7 +21,6 @@ public class ProgramExecutor {
     private ProgramExecutor() {
     }
 
-
     public void execute() throws IOException, URISyntaxException {
         init();
         run(getScanner());
