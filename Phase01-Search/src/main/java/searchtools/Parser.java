@@ -28,7 +28,7 @@ public class Parser {
         try {
             SENTENCE_DETECTOR = new SentenceDetectorME(new SentenceModel(new File(DATA_ADDR + "en-sent" + ".bin")));
             POS_TAGGER = new POSTaggerME(
-                    new POSModel(new File( DATA_ADDR + "en-pos-maxent" + ".bin")));
+                    new POSModel(new File(DATA_ADDR + "en-pos-maxent" + ".bin")));
             TOKENIZER = new TokenizerME(
                     new TokenizerModel(new File(DATA_ADDR + "en-token" + ".bin")));
             DICTIONARY_LEMMATIZER = new DictionaryLemmatizer(
@@ -70,16 +70,14 @@ public class Parser {
         List<String> wordList = Arrays.asList(words);
         List<String> POSTagsList = Arrays.asList(POSTagsOfWords);
 
-        int indexOfWord = 0;
+        int positionOfWord = 0;
         for (int i = 0; i < wordList.size(); i++) {
             String tag = POSTagsList.get(i);
             String word = wordList.get(i);
-            if (tag.matches("[A-Z$]+") && !tag.equals("$")) {
-                if (isPOSTagValuable(tag)) {
-                    String stemmedWord = stemWord(word, tag);
-                    addData(data, indexOfWord, stemmedWord);
-                }
-                indexOfWord++;
+            if (isPOSTagValuable(tag)) {
+                String stemmedWord = stemWord(word, tag);
+                addData(data, positionOfWord, stemmedWord);
+                positionOfWord++;
             }
         }
         return data.values();
@@ -105,13 +103,13 @@ public class Parser {
     }
 
 
-    private static void addData(HashMap<String, Data> data, int indexOfWord, String stemmedWord) {
+    private static void addData(HashMap<String, Data> data, int position, String stemmedWord) {
         Data data1 = data.get(stemmedWord);
         if (data1 != null) {
-            data1.addPosition(indexOfWord);
+            data1.addPosition(position);
         } else {
             Data data2 = new Data(stemmedWord);
-            data2.addPosition(indexOfWord);
+            data2.addPosition(position);
             data.put(stemmedWord, data2);
         }
     }
@@ -123,12 +121,14 @@ public class Parser {
     }
 
     private static boolean isPOSTagValuable(String POSTag) {
-        return !(POSTag.equals("DT") ||
-                POSTag.equals("IN") ||
-                POSTag.equals("TO") ||
-                POSTag.equals("POS") ||
-                POSTag.equals("PRP") ||
-                POSTag.equals("PRP$"));
+        return POSTag.matches("[A-Z$]+") &&
+                !POSTag.equals("$") &&
+                !(POSTag.equals("DT") ||
+                        POSTag.equals("IN") ||
+                        POSTag.equals("TO") ||
+                        POSTag.equals("POS") ||
+                        POSTag.equals("PRP") ||
+                        POSTag.equals("PRP$"));
     }
 
 }

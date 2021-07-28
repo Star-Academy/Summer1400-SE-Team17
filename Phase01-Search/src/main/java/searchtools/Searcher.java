@@ -1,19 +1,19 @@
 package searchtools;
 
 import data.Data;
-import searchtools.InvertedIndex;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class Searcher {
-    private final HashMap<String,ArrayList<Data>> dataBase;
+    private final HashMap<String, ArrayList<Data>> dataBase;
+
     public Searcher(InvertedIndex invertedIndex) {
         dataBase = invertedIndex.getDataBase();
     }
 
-    public  HashSet<Integer> search(String command) {
+    public HashSet<Integer> search(String command) {
         String[] words = getWords(command);
         stemWords(words);
         return getResult(words);
@@ -47,7 +47,7 @@ public class Searcher {
         return result;
     }
 
-    private  HashSet<Integer> getEssentialWordsDocs(String[] words) {
+    private HashSet<Integer> getEssentialWordsDocs(String[] words) {
         HashSet<Integer> result = new HashSet<>();
         boolean isFirstEssential = true;
         for (String word : words) {
@@ -75,7 +75,7 @@ public class Searcher {
     }
 
 
-    private  void stemWords(String[] words) {
+    private void stemWords(String[] words) {
         for (int i = 0; i < words.length; ++i) {
             if (isWillingWord(words[i]) || isBannedWord(words[i])) {
                 words[i] = words[i].charAt(0) + Parser.stemWord(words[i].substring(1));
@@ -85,15 +85,15 @@ public class Searcher {
         }
     }
 
-    private  boolean isWillingWord(String str) {
+    private boolean isWillingWord(String str) {
         return str.startsWith("+");
     }
 
-    private  boolean isBannedWord(String str) {
+    private boolean isBannedWord(String str) {
         return str.startsWith("-");
     }
 
-    private  String[] getWords(String command) {
+    private String[] getWords(String command) {
         return command.trim().toLowerCase().split(" ");
     }
 
