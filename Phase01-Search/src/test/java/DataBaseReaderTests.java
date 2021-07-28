@@ -1,3 +1,5 @@
+import data.DatabaseReader;
+import data.Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +24,12 @@ public class DataBaseReaderTests {
                 " on netlanders to provide me with any additional information**news, stories, report**people you know with t" +
                 "his diseas**ideas, articles about Genzyme Corp, how to get a hold o   enough money to buy some, programs av" +
                 "ailable to help wit   costs**Basically ANY HELP YOU CAN OFFEThanks so very muchDeborah";
-        ArrayList<Document> documents = DatabaseReader.getDocsInDirectory("EnglishData");
+        ArrayList<Document> documents = DatabaseReader.getDocsInDirectory("src/main/resources/searchtools/EnglishData");
+        Document wantedDocument = null;
+        for(Document document : documents)
+            if(document.getId() == expectedId)
+                wantedDocument = document;
+        //
         Assertions.assertEquals(documents.get(0).getContent() , expectedContent);
         Assertions.assertEquals(documents.get(0).getId() , expectedId);
     }

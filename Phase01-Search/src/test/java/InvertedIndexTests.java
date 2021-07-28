@@ -1,6 +1,10 @@
+import data.Data;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import searchtools.InvertedIndex;
+import searchtools.Parser;
+import searchtools.Searcher;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -8,15 +12,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class InvertedIndexTests {
+    private final Searcher searcher = new Searcher(new InvertedIndex());
     @Test
     public void wholeProcessTest() {
         String command = "male friend old bone -sponge +humidity";
         int expectedResultSize = 2;
         int expectedResult = 57110;
-        InvertedIndex.load();
-        HashSet<Integer> searchResults = InvertedIndex.search(command);
+        HashSet<Integer> searchResults = searcher.search(command);
         Assertions.assertEquals(expectedResultSize, searchResults.size());
         Assertions.assertTrue(searchResults.contains(expectedResult));
+        System.out.println(Parser.stemWord("hi"));
     }
 
     @Test
@@ -26,7 +31,7 @@ public class InvertedIndexTests {
         int expectedResultSize = 2;
         HashMap<String, ArrayList<Data>> dataBase = getFirstSample();
         mockDataBase(dataBase);
-        HashSet<Integer> results = InvertedIndex.search(command);
+        HashSet<Integer> results = searcher.search(command);
         Assertions.assertEquals(expectedResultSize , results.size());
         Assertions.assertTrue(results.contains(2));
         Assertions.assertTrue(results.contains(3));
@@ -53,9 +58,9 @@ public class InvertedIndexTests {
     }
 
     private void mockDataBase(HashMap<String, ArrayList<Data>> dataBase) throws NoSuchFieldException, IllegalAccessException {
-        Field field = InvertedIndex.class.getDeclaredField("dataBase");
+        Field field = Searcher.class.getDeclaredField("dataBase");
         field.setAccessible(true);
-        field.set(null , dataBase);
+        field.set(searcher , dataBase);
     }
 
 }
