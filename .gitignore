@@ -1,5 +1,7 @@
-
 .DS_Store
 *.class
 *.class
 *.iml
+Phase01-Search/target/**
+Phase01-Search/.idea/**
+ 
