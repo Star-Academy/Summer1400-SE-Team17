@@ -57,12 +57,6 @@ public class ProgramExecutor {
     }
 
     private Scanner getScanner() {
-        Scanner scanner = new Scanner(System.in);
-        if (scanner.hasNextLine()) {
-            scanner = scanner.skip(".*");
-            scanner.next();
-            scanner = new Scanner(System.in);
-        }
-        return scanner;
+        return new Scanner(System.in);
     }
 }
