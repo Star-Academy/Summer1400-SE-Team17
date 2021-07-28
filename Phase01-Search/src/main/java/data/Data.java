@@ -1,3 +1,5 @@
+package data;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,7 +61,7 @@ public class Data {
 
     @Override
     public String toString() {
-        return "Word: " + word + "| @Document: " + indexDocument + "| Had accord in: " +
+        return "Word: " + word + "| @data.Document: " + indexDocument + "| Had accord in: " +
                 Arrays.toString(positions.toArray());
     }
 }

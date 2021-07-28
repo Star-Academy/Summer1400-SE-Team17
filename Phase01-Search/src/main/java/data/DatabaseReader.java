@@ -1,5 +1,4 @@
-
-import lombok.SneakyThrows;
+package data;
 
 import java.io.File;
 import java.io.IOException;

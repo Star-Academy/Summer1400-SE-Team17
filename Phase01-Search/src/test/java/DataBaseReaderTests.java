@@ -1,3 +1,5 @@
+import data.DatabaseReader;
+import data.Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,3 +1,7 @@
+package searchtools;
+
+import data.Data;
+import data.Document;
 import opennlp.tools.lemmatizer.DictionaryLemmatizer;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
