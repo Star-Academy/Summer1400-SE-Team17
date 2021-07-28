@@ -1,16 +1,16 @@
-import lombok.SneakyThrows;
-
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         init();
         run(getScanner());
     }
 
-    private static void run(Scanner scanner) {
+    private static void run(Scanner scanner) throws IOException, URISyntaxException {
         while (true) {
             String command = scanner.nextLine().trim();
             if (command.equals("--exit")) {
@@ -32,7 +32,7 @@ public class Main {
         }
     }
 
-    @SneakyThrows
+
     private static void init() {
         System.out.println("initializing database...");
         InvertedIndex.load();

@@ -1,11 +1,13 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class DataBaseReaderTests {
     @Test
-    public void getDocsInDirectoryTest() {
+    public void getDocsInDirectoryTest() throws IOException, URISyntaxException {
         int expectedId = 57110;
         String expectedContent = "I have a 42 yr old male friend, misdiagnosed as havin osteopporosis for two y" +
                 "ears, who recently found out that hi illness is the rare Gaucher's disease.Gaucher's diseas" +

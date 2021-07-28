@@ -9,8 +9,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class DatabaseReader {
-    @SneakyThrows
-    public static ArrayList<Document> getDocsInDirectory(String directoryLocation) {
+
+    public static ArrayList<Document> getDocsInDirectory(String directoryLocation) throws URISyntaxException, IOException {
         ArrayList<Document> result = new ArrayList<>();
         File[] filesList = getFiles(directoryLocation);
         addDocumentsToResult(result, filesList);
@@ -19,11 +19,16 @@ public class DatabaseReader {
 
     private static void addDocumentsToResult(ArrayList<Document> result, File[] filesList) throws IOException {
         for (File file : filesList) {
-            String content = new String(Files.readAllBytes(file.toPath()));
-            int id = Integer.parseInt(file.getName());
-            Document document = new Document(content, id);
+            Document document = createDocument(file);
             result.add(document);
         }
+    }
+
+    private static Document createDocument(File file) throws IOException {
+        String content = new String(Files.readAllBytes(file.toPath()));
+        int id = Integer.parseInt(file.getName());
+        Document document = new Document(content, id);
+        return document;
     }
 
     private static File[] getFiles(String directoryLocation) throws URISyntaxException {

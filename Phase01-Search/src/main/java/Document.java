@@ -1,10 +1,13 @@
 import lombok.Getter;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 @Getter
 public class Document {
-
+    @Getter
+    private static final String DATA_DIRECTORY = "EnglishData";
     private final String content;
     private final int id;
 
@@ -13,7 +16,7 @@ public class Document {
         this.id = id;
     }
 
-    public static ArrayList<Document> getDocuments() {
-        return DatabaseReader.getDocsInDirectory("EnglishData");
+    public static ArrayList<Document> getDocuments() throws IOException, URISyntaxException {
+        return DatabaseReader.getDocsInDirectory(DATA_DIRECTORY);
     }
 }

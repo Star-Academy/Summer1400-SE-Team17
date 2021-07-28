@@ -1,9 +1,12 @@
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,26 +14,24 @@ import java.util.Arrays;
 @Getter
 @Setter
 public class Data {
+
     private ArrayList<Integer> positions = new ArrayList<>();
     private transient String word;
     private int indexDocument;
 
-    public Data(String word, int indexDocument) {
-        this.word = word;
-        this.indexDocument = indexDocument;
-        positions = new ArrayList<>();
-    }
-
-
-    public Data(String word,ArrayList<Integer> positions,int indexDocument) {
+    public Data(String word, ArrayList<Integer> positions, int indexDocument) {
         this.word = word;
         this.positions = positions;
         this.indexDocument = indexDocument;
     }
 
+    public Data(String word, int indexDocument) {
+        this.word = word;
+        this.indexDocument = indexDocument;
+    }
+
     public Data(String word) {
         this.word = word;
-        positions = new ArrayList<>();
     }
 
     public Data() {
@@ -38,17 +39,17 @@ public class Data {
     }
 
 
-    @SneakyThrows
-    public Document getDocument() {
+    public Document getDocument() throws IOException, URISyntaxException {
         String content = getContent();
         return new Document(content, indexDocument);
     }
 
-    @SneakyThrows
-    private String getContent() {
-        URL url = getClass().getResource("EnglishData/" + indexDocument);
+
+    private String getContent() throws URISyntaxException, IOException {
+        URL url = getClass().getResource(Document.getDATA_DIRECTORY() + "/" + indexDocument);
         assert url != null;
-        return new String(Files.readAllBytes(Paths.get(url.toURI())));
+        Path path = Paths.get(url.toURI());
+        return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
     }
 
 
