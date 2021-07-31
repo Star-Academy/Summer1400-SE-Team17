@@ -3,6 +3,7 @@ package data;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.print.Doc;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -23,6 +24,12 @@ public class Data {
     @Setter
     private int indexDocument;
 
+    public static Document getDocument(int index) throws IOException, URISyntaxException {
+        Data data = new Data();
+        data.setIndexDocument(index);
+        return data.getDocument();
+    }
+
     public Data(String word, int indexDocument) {
         this.word = word;
         this.indexDocument = indexDocument;
@@ -35,6 +42,7 @@ public class Data {
     public Data() {
 
     }
+
 
 
     public Document getDocument() throws IOException, URISyntaxException {
