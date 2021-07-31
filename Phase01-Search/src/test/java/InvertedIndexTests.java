@@ -2,7 +2,7 @@ import data.Data;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import searchtools.InvertedIndex;
-import searchtools.Searcher;
+import searchtools.SearchEngine;
 
 
 import java.io.File;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
 
 public class InvertedIndexTests {
-    private static Searcher searcher;
+    private static SearchEngine searcher;
     public static final String MOCK_DATA_JSON = "src/main/resources/mock-data.json";
 
     @BeforeEach
@@ -26,7 +26,7 @@ public class InvertedIndexTests {
             return null;
         }).when(mockIndex).load(InvertedIndex.DATA_JSON);
         mockIndex.load(InvertedIndex.DATA_JSON);
-        searcher = new Searcher(mockIndex);
+        searcher = new SearchEngine(mockIndex);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class InvertedIndexTests {
     }
 
     private void mockDataBase(HashMap<String, ArrayList<Data>> dataBase) throws NoSuchFieldException, IllegalAccessException {
-        Field field = Searcher.class.getDeclaredField("dataBase");
+        Field field = SearchEngine.class.getDeclaredField("dataBase");
         field.setAccessible(true);
         field.set(searcher , dataBase);
     }
