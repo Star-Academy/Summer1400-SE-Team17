@@ -22,24 +22,26 @@ namespace Phase04
 
         private static void InitStudentsAndCourses()
         {
-            string studentData = FileReader.GetWholeFileAsString(StudentsPath);
-            Student.AllStudents = JsonManager.Deserialize<List<Student>>(studentData);
-            string coursesData = FileReader.GetWholeFileAsString(ScoresPath);
-            Course.AllStudentsCourses = JsonManager.Deserialize<List<Course>>(coursesData);
-            foreach (var student in Student.AllStudents)
-            {
-                Console.WriteLine(student.StudentNumber);
-            }
+            LoadCoursesData();
+            LoadStudentsData();
             foreach (var course in Course.AllStudentsCourses)
             {
-                Console.WriteLine(course.StudentNumber);
+                Student.AllStudents.Find(x => x.StudentNumber == course.StudentNumber).Courses.Add(course);
             }
-            // foreach (var course in Course.AllStudentsCourses)
-            // {
-            //     Console.WriteLine(course.StudentNumber);
-            //     Student.AllStudents.Find(x => x.StudentNumber == course.StudentNumber).Courses.Add(course);
-            // }
         }
+
+        private static void LoadStudentsData()
+        {
+            string studentData = FileReader.GetWholeFileAsString(StudentsPath);
+            Student.AllStudents = JsonManager.Deserialize<List<Student>>(studentData);
+        }
+
+        private static void LoadCoursesData()
+        {
+            string coursesData = FileReader.GetWholeFileAsString(ScoresPath);
+            Course.AllStudentsCourses = JsonManager.Deserialize<List<Course>>(coursesData);
+        }
+
         private static void DisplayStudent(Student student)
         {
             System.Console.WriteLine($"student name : {student.FirstName} {student.LastName} average score : {student.GetAverageScore()}");

@@ -5,9 +5,9 @@ namespace Phase04
 {
     public class Course
     {
-        public static List<Course> AllStudentsCourses { get; set; }
-        public int StudentNumber { get; }
+        public static List<Course> AllStudentsCourses;
+        public int StudentNumber;
         public string Lesson;
-        public double Score { get; }
+        public double Score;
     }
 }
