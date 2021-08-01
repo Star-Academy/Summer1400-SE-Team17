@@ -91,6 +91,7 @@ public class ProgramExecutor {
             }
         };
     }
+    
 
     private Searcher<Integer> getDefaultSearcher() {
         printer.print("initializing database...");
