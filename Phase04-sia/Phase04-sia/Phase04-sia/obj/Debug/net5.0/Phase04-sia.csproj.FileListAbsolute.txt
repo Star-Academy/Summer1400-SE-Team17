@@ -1,0 +1,15 @@
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/bin/Debug/net5.0/Phase04-sia.deps.json
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/bin/Debug/net5.0/Phase04-sia.runtimeconfig.json
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/bin/Debug/net5.0/Phase04-sia.runtimeconfig.dev.json
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/bin/Debug/net5.0/Phase04-sia.dll
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/bin/Debug/net5.0/ref/Phase04-sia.dll
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/bin/Debug/net5.0/Phase04-sia.pdb
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/Phase04-sia.csproj.AssemblyReference.cache
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/Phase04-sia.GeneratedMSBuildEditorConfig.editorconfig
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/Phase04-sia.AssemblyInfoInputs.cache
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/Phase04-sia.AssemblyInfo.cs
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/Phase04-sia.csproj.CoreCompileInputs.cache
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/Phase04-sia.dll
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/ref/Phase04-sia.dll
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/Phase04-sia.pdb
+/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase04-sia/Phase04-sia/Phase04-sia/obj/Debug/net5.0/Phase04-sia.genruntimeconfig.cache

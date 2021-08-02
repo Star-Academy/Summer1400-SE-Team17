@@ -6,7 +6,10 @@ namespace Phase04_sia
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Executor.Executorr.Execute();
         }
+        
     }
+
+   
 }
