@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -94,8 +94,9 @@ namespace Phase05
 
     public class InvertedIndexSearcher : ISearcher<int>
     {
-        private Dictionary<string, HashSet<int>> _dictionary;
-        private WordParser _wordParser = new WordParser();
+        private Dictionary<string, HashSet<int>> _dictionary = new Dictionary<string, HashSet<int>>();
+        private IParser<string> _wordParser = new WordParser();
+        private IParser<string[]> _documentParser = new DocumentParser();
         private IFileLoader<HashSet<Document>> _fileLoader = new DictionaryLoader();
 
         public IFileLoader<HashSet<Document>> FileLoader
@@ -103,11 +104,36 @@ namespace Phase05
             set => _fileLoader = value;
         }
 
+        public IParser<string> WordParser
+        {
+            set => _wordParser = value;
+        }
+
+        public IParser<string[]> DocumentParser
+        {
+            set => _documentParser = value;
+        }
+
         public void LoadDictionary(string path)
         {
             HashSet<Document> rawData = _fileLoader.Load(path);
-            throw new NotImplementedException("build actual dictionary from raw data");
-            // _dictionary = _fileLoader.Load(path);
+            foreach (var document in rawData)
+            {
+                AddDocumentIndexToDictionary(document);
+            }
+        }
+
+        private void AddDocumentIndexToDictionary(Document document)
+        {
+            string documentContent = document.Content;
+            int documentIndex = document.DocumentIndex;
+            string[] parsedDocument = _documentParser.Parse(documentContent);
+            foreach (var word in parsedDocument)
+            {
+                if (!_dictionary.ContainsKey(word))
+                    _dictionary.Add(word, new HashSet<int>());
+                _dictionary[word].Add(documentIndex);
+            }
         }
 
         public HashSet<int> Search(string word)

@@ -2,25 +2,15 @@
 using System.Linq;
 using System.Collections.Generic;
 using Xunit;
-using Moq;
 using NSubstitute;
 using Parser;
 using Phase05;
-using Xunit.Abstractions;
-using Xunit.Extensions;
-using Xunit.Sdk;
-
 
 namespace TestProject1
 {
     public class ParserTests
     {
-        private readonly ITestOutputHelper _testOutputHelper;
-
-        public ParserTests(ITestOutputHelper testOutputHelper)
-        {
-            _testOutputHelper = testOutputHelper;
-        }
+        
 
         [Theory]
         [InlineData("coming", "come")]
@@ -79,28 +69,36 @@ namespace TestProject1
         {
             return new[]
             {
-                new object[] {"pasha +sia -go",new HashSet<Document>()
+                new object[]
                 {
-                    new Document(1,""),
-                    new Document(7,"")
-                }},
-                new object[] {"+sia +pasha -went",new HashSet<Document>()
+                    "pasha +sia -go", new HashSet<Document>()
+                    {
+                        new Document(1, ""),
+                        new Document(7, "")
+                    }
+                },
+                new object[]
                 {
-                    new Document(1,""),
-                    new Document(7,"")
-                }},
-                new object[] {"+hi pasha sia +go",new HashSet<Document>()
+                    "+sia +pasha -went", new HashSet<Document>()
+                    {
+                        new Document(1, ""),
+                        new Document(7, "")
+                    }
+                },
+                new object[]
                 {
-                    new Document(2,""),
-                    new Document(17,"")
-                }}
+                    "+hi pasha sia +go", new HashSet<Document>()
+                    {
+                        new Document(2, ""),
+                        new Document(17, "")
+                    }
+                }
             };
         }
-        
-        [Theory,MemberData(nameof(GetSearchEngineData))]
+
+        [Theory, MemberData(nameof(GetSearchEngineData))]
         public void SearchEngineTest(string command, HashSet<Document> result)
         {
-            
             var searcher = new SearchEngine();
             var invertedMock = Substitute.For<ISearcher<int>>();
             invertedMock.Search("sia").Returns(new HashSet<int>() {1, 2});
@@ -112,11 +110,45 @@ namespace TestProject1
             Assert.True(searcher.Search(command).SetEquals(result));
         }
 
-        public void InvertedIndexSearcher()
+        public static IEnumerable<object[]> GetInvertedIndexSearcherData()
         {
-            
+            return new[]
+            {
+                new object[]
+                {
+                    new HashSet<Document>()
+                    {
+                        new Document(1, "banana orange kebab"),
+                        new Document(2, "fish giraffe monkey")
+                    },
+                    "fish",
+                    new HashSet<int>()
+                    {
+                        2
+                    }
+                }
+            };
         }
-        
-        
+
+        [Theory, MemberData(nameof(GetInvertedIndexSearcherData))]
+        public void InvertedIndexSearcherTest(HashSet<Document> input, String searchedWord, HashSet<int> result)
+        {
+            var invertedIndex = new InvertedIndexSearcher();
+
+            var mockedDocumentParser = Substitute.For<IParser<string[]>>();
+            mockedDocumentParser.Parse("banana orange kebab").Returns(new [] {"banana", "orange", "kebab"});
+            mockedDocumentParser.Parse("fish giraffe monkey").Returns(new [] {"fish", "giraffe", "monkey"});
+            var mockedFileLoader = Substitute.For<IFileLoader<HashSet<Document>>>();
+            mockedFileLoader.Load("").Returns(input);
+            var mockedWordParser = Substitute.For<IParser<string>>();
+            mockedWordParser.Parse("fish").Returns("fish");
+            
+            invertedIndex.WordParser = mockedWordParser;
+            invertedIndex.DocumentParser = mockedDocumentParser;
+            invertedIndex.FileLoader = mockedFileLoader;
+            invertedIndex.LoadDictionary("");
+            
+            Assert.True(invertedIndex.Search(searchedWord).SetEquals(result));
+        }
     }
 }
