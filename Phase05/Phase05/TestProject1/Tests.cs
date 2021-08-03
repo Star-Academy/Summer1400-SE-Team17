@@ -8,6 +8,7 @@ using Parser;
 using Phase05;
 using Xunit.Abstractions;
 using Xunit.Extensions;
+using Xunit.Sdk;
 
 
 namespace TestProject1
@@ -74,9 +75,32 @@ namespace TestProject1
 
     public class SearchTest
     {
+        public static IEnumerable<object[]> GetSearchEngineData()
+        {
+            return new[]
+            {
+                new object[] {"pasha +sia -go",new HashSet<Document>()
+                {
+                    new Document(1,""),
+                    new Document(7,"")
+                }},
+                new object[] {"+sia +pasha -went",new HashSet<Document>()
+                {
+                    new Document(1,""),
+                    new Document(7,"")
+                }},
+                new object[] {"+hi pasha sia +go",new HashSet<Document>()
+                {
+                    new Document(2,""),
+                    new Document(17,"")
+                }}
+            };
+        }
+        
         [Theory,MemberData(nameof(GetSearchEngineData))]
         public void SearchEngineTest(string command, HashSet<Document> result)
         {
+            
             var searcher = new SearchEngine();
             var invertedMock = Substitute.For<ISearcher<int>>();
             invertedMock.Search("sia").Returns(new HashSet<int>() {1, 2});
@@ -92,28 +116,7 @@ namespace TestProject1
         {
             
         }
-        public IEnumerable<object[]> GetSearchEngineData()
-        {
-            return new[]
-            {
-                new object[] {"pasha +sia -go",new HashSet<Document>()
-                {
-                    new Document(1,""),
-                    new Document(7,"")
-                }},
-                new object[] {"+sia +pasha -went",new HashSet<Document>()
-                {
-                    new Document(1,""),
-                    new Document(7,"")
-                }},
-                new object[] {"+Hi pasha sia +go",new HashSet<Document>()
-                {
-                    new Document(1,""),
-                    new Document(2,""),
-                    new Document(17,"")
-                }}
-            };
-        }
+        
         
     }
 }

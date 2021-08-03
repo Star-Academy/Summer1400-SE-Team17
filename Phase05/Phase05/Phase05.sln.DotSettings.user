@@ -2,14 +2,11 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase05/Phase05/packages/IKVM.8.1.5717.0/lib/IKVM.OpenJDK.Core.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4d3c9ccd_002D59ed_002D4cc0_002D9aee_002Debc9926cbcb5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ParserTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::D924B055-4BFF-4CAD-ADF7-D657F6C4D167::.NETFramework,Version=v4.8::TestProject1.ParserTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::D924B055-4BFF-4CAD-ADF7-D657F6C4D167::.NETFramework,Version=v4.8::TestProject1.SearchTest.SearchEngineTest&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fa9348f1_002Df430_002D44c8_002Da5fc_002Dbbae308b8d98/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SentenceParserTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::D924B055-4BFF-4CAD-ADF7-D657F6C4D167::.NETFramework,Version=v4.8::TestProject1.ParserTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fa9348f1_002Df430_002D44c8_002Da5fc_002Dbbae308b8d98/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SentenceParserTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::D924B055-4BFF-4CAD-ADF7-D657F6C4D167::.NETFramework,Version=v4.8::TestProject1.ParserTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::D924B055-4BFF-4CAD-ADF7-D657F6C4D167::.NETFramework,Version=v4.8::TestProject1.SearchTest.SearchEngineTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::D924B055-4BFF-4CAD-ADF7-D657F6C4D167::.NETFramework,Version=v4.8::TestProject1.SearchTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
