@@ -9,7 +9,7 @@ namespace Phase05
 
     public interface ISearcher<T>
     {
-        List<T> Search(string text);
+        HashSet<T> Search(string text);
     }
 
     public interface IPrinter
@@ -20,6 +20,11 @@ namespace Phase05
     public interface IParser<T>
     {
         T Parse(string text);
+    }
+
+    public interface IFileLoader<T>
+    {
+        T Load(string path);
     }
     
 }
