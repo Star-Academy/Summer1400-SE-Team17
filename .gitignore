@@ -5,3 +5,4 @@
 Phase01-Search/target/*
 Phase01-Search/.idea/*
 Phase01-Search/target/classes/EnglishData/*
+*.cache
