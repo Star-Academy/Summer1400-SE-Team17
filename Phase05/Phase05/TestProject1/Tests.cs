@@ -100,12 +100,12 @@ namespace TestProject1
         public void SearchEngineTest(string command, HashSet<Document> result)
         {
             var searcher = new SearchEngine();
-            var invertedMock = Substitute.For<ISearcher<int>>();
-            invertedMock.Search("sia").Returns(new HashSet<int>() {1, 2});
-            invertedMock.Search("pasha").Returns(new HashSet<int>() {2, 7});
-            invertedMock.Search("go").Returns(new HashSet<int>() {2, 17});
-            invertedMock.Search("went").Returns(new HashSet<int>() {2, 17});
-            invertedMock.Search("hi").Returns(new HashSet<int>());
+            var invertedMock = Substitute.For<ISearcher<Document>>();
+            invertedMock.Search("sia").Returns(new HashSet<Document>() { new Document(1 , "") , new Document(2 , "")});
+            invertedMock.Search("pasha").Returns(new HashSet<Document>() { new Document(2 , "") , new Document(7 , "")});
+            invertedMock.Search("go").Returns(new HashSet<Document>() { new Document(2 , "") , new Document(17 , "")});
+            invertedMock.Search("went").Returns(new HashSet<Document>() { new Document(2 , "") , new Document(17 , "")});
+            invertedMock.Search("hi").Returns(new HashSet<Document>());
             searcher.Searcher = invertedMock;
             Assert.True(searcher.Search(command).SetEquals(result));
         }
@@ -122,16 +122,16 @@ namespace TestProject1
                         new Document(2, "fish giraffe monkey")
                     },
                     "fish",
-                    new HashSet<int>()
+                    new HashSet<Document>()
                     {
-                        2
+                        new Document(2, "fish giraffe monkey")
                     }
                 }
             };
         }
 
         [Theory, MemberData(nameof(GetInvertedIndexSearcherData))]
-        public void InvertedIndexSearcherTest(HashSet<Document> input, String searchedWord, HashSet<int> result)
+        public void InvertedIndexSearcherTest(HashSet<Document> input, String searchedWord, HashSet<Document> result)
         {
             var invertedIndex = new InvertedIndexSearcher();
 
