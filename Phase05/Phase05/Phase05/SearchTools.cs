@@ -126,7 +126,12 @@ namespace Phase05
         public HashSet<Document> Search(string word)
         {
             word = _wordParser.Parse(word);
-            return _dictionary[word];
+            if (_dictionary.ContainsKey(word))
+            {
+                return _dictionary[word];
+            }
+
+            return new HashSet<Document>();
         }
     }
 
