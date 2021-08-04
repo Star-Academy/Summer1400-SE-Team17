@@ -3,21 +3,23 @@
 using System;
 using System.IO;
 
-
+using opennlp;
 namespace Phase05
 {
     internal class Program
     {
         public static void Main(string[] args)
         {
-            
-            foreach (var fileRelativePath in Directory.EnumerateFiles("resources/EnglishData/"))
+            SearchEngine searchEngine = new SearchEngine();
+            InvertedIndexSearcher invertedIndexSearcher = new InvertedIndexSearcher();
+            invertedIndexSearcher.LoadDictionary("");
+            searchEngine.Searcher = invertedIndexSearcher;
+            string input = Console.ReadLine();
+            int count = 0;
+            foreach (var document in searchEngine.Search(input))
             {
-                string fileName = fileRelativePath.Substring(fileRelativePath.LastIndexOf('/') + 1);
-                string fileContent = File.ReadAllText(fileRelativePath);
-                
+                Console.WriteLine($"{document.DocumentIndex} : {document.Content}");
             }
-            
         }
     }
 }

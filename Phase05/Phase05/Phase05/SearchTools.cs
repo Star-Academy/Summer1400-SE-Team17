@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,9 +8,9 @@ namespace Phase05
 {
     public class SearchEngine : ISearcher<Document>
     {
-        private ISearcher<int> _searcher = new InvertedIndexSearcher();
+        private ISearcher<Document> _searcher = new InvertedIndexSearcher();
 
-        public ISearcher<int> Searcher
+        public ISearcher<Document> Searcher
         {
             set => _searcher = value;
         }
@@ -22,33 +22,21 @@ namespace Phase05
             string[] optionalWords = splitCommands.Where(s => IsOptionalWord(s)).Select(x => x.Substring(1)).ToArray();
             string[] forbiddenWords =
                 splitCommands.Where(s => IsForbiddenWord(s)).Select(x => x.Substring(1)).ToArray();
-            return GetDocumentsFromIndices(SearchIndices(necessaryWords, optionalWords, forbiddenWords));
+            return SearchIndices(necessaryWords, optionalWords, forbiddenWords);
         }
 
-        private HashSet<Document> GetDocumentsFromIndices(HashSet<int> indices)
+        private HashSet<Document> SearchIndices(string[] necessaryWords, string[] optionalWords, string[] forbiddenWords)
         {
-            HashSet<Document> result = new HashSet<Document>();
-            foreach (var index in indices)
-            {
-                Document document = new Document(index, "");
-                result.Add(document);
-            }
-
-            return result;
-        }
-
-        private HashSet<int> SearchIndices(string[] necessaryWords, string[] optionalWords, string[] forbiddenWords)
-        {
-            HashSet<int> result = GetAllWordsMustIncludeSet(necessaryWords);
+            HashSet<Document> result = GetAllWordsMustIncludeSet(necessaryWords);
             result.UnionWith(GetAtLeastOneWordMustIncludeSet(optionalWords));
             result.ExceptWith(GetAtLeastOneWordMustIncludeSet(forbiddenWords));
             return result;
         }
 
-        private HashSet<int> GetAllWordsMustIncludeSet(string[] words)
+        private HashSet<Document> GetAllWordsMustIncludeSet(string[] words)
         {
             bool isFirstWord = true;
-            HashSet<int> result = new HashSet<int>();
+            HashSet<Document> result = new HashSet<Document>();
             foreach (var word in words)
             {
                 if (isFirstWord)
@@ -65,9 +53,9 @@ namespace Phase05
             return result;
         }
 
-        private HashSet<int> GetAtLeastOneWordMustIncludeSet(string[] words)
+        private HashSet<Document> GetAtLeastOneWordMustIncludeSet(string[] words)
         {
-            HashSet<int> result = new HashSet<int>();
+            HashSet<Document> result = new HashSet<Document>();
             foreach (var word in words)
             {
                 result.UnionWith(_searcher.Search(word));
@@ -92,10 +80,11 @@ namespace Phase05
         }
     }
 
-    public class InvertedIndexSearcher : ISearcher<int>
+    public class InvertedIndexSearcher : ISearcher<Document>
     {
-        private Dictionary<string, HashSet<int>> _dictionary;
-        private WordParser _wordParser = new WordParser();
+        private Dictionary<string, HashSet<Document>> _dictionary = new Dictionary<string, HashSet<Document>>();
+        private IParser<string> _wordParser = new WordParser();
+        private IParser<string[]> _documentParser = new DocumentParser();
         private IFileLoader<HashSet<Document>> _fileLoader = new DictionaryLoader();
 
         public IFileLoader<HashSet<Document>> FileLoader
@@ -103,14 +92,38 @@ namespace Phase05
             set => _fileLoader = value;
         }
 
+        public IParser<string> WordParser
+        {
+            set => _wordParser = value;
+        }
+
+        public IParser<string[]> DocumentParser
+        {
+            set => _documentParser = value;
+        }
+
         public void LoadDictionary(string path)
         {
             HashSet<Document> rawData = _fileLoader.Load(path);
-            throw new NotImplementedException("build actual dictionary from raw data");
-            // _dictionary = _fileLoader.Load(path);
+            foreach (var document in rawData)
+            {
+                AddDocumentIndexToDictionary(document);
+            }
         }
 
-        public HashSet<int> Search(string word)
+        private void AddDocumentIndexToDictionary(Document document)
+        {
+            string documentContent = document.Content;
+            string[] parsedDocument = _documentParser.Parse(documentContent);
+            foreach (var word in parsedDocument)
+            {
+                if (!_dictionary.ContainsKey(word))
+                    _dictionary.Add(word, new HashSet<Document>());
+                _dictionary[word].Add(document);
+            }
+        }
+
+        public HashSet<Document> Search(string word)
         {
             word = _wordParser.Parse(word);
             return _dictionary[word];
