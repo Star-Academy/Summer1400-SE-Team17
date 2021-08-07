@@ -30,14 +30,14 @@ namespace Parser
         public string[] Parse(string text)
         {
             text = text.ToLower();
-            Regex.Replace(text , "[^a-z]" , " ");
+            text = Regex.Replace(text , "[^a-z]" , " ");
             var words = text.Split(' ');
             var result = new HashSet<string>();
             foreach (var word in words)
             {
                 result.Add(_wordParse.Parse(word));
             }
-
+            result.Remove("");
             return result.ToArray();
         }
     }
