@@ -57,9 +57,9 @@ namespace Parser
             var sentences = text.Split('.');
             foreach (var sentence in sentences)
             {
-                parsedResult.UnionWith(_sentenceParser.Parse(sentence));
+                parsedResult.UnionWith(_sentenceParser.Parse(sentence.Trim()));
             }
-
+            
             return parsedResult.ToArray();
         }
     }

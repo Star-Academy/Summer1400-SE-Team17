@@ -5,25 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a51d6b7f-b18f-49ef-bd73-8d1035aaa184" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Phase05.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/../Phase05.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp3.1/Phase05.runtimeconfig.dev.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/netcoreapp3.1/Phase05.runtimeconfig.dev.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp3.1/Phase05.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/netcoreapp3.1/Phase05.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Phase05.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Phase05.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Phase05.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Phase05.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/bin/Debug/netcoreapp3.1/CoverletSourceRootsMapping" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/bin/Debug/netcoreapp3.1/CoverletSourceRootsMapping" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/bin/Debug/netcoreapp3.1/Phase05.runtimeconfig.dev.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/bin/Debug/netcoreapp3.1/Phase05.runtimeconfig.dev.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/bin/Debug/netcoreapp3.1/TestProject1.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/bin/Debug/netcoreapp3.1/TestProject1.deps.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/bin/Debug/netcoreapp3.1/TestProject1.runtimeconfig.dev.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/bin/Debug/netcoreapp3.1/TestProject1.runtimeconfig.dev.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/obj/Debug/netcoreapp3.1/TestProject1.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/obj/Debug/netcoreapp3.1/TestProject1.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/obj/TestProject1.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/obj/TestProject1.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/obj/TestProject1.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/obj/TestProject1.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/obj/TestProject1.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/obj/TestProject1.csproj.nuget.g.targets" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestProject1/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../TestProject1/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Phase05/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phase05/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628327944065</updated>
-      <workItem from="1628327950763" duration="2488000" />
+      <workItem from="1628327950763" duration="2796000" />
     </task>
     <servers />
   </component>

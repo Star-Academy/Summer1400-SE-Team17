@@ -3,6 +3,7 @@
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::71B54858-D051-4F9A-91D3-9431E15AFB59::.NETCoreApp,Version=v3.1::TestProject1.ParserTests.SentenceParserTest&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::71B54858-D051-4F9A-91D3-9431E15AFB59::.NETCoreApp,Version=v3.1::TestProject1.SearchTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::71B54858-D051-4F9A-91D3-9431E15AFB59::.NETCoreApp,Version=v3.1::TestProject1.ParserTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e33b49cc_002D6b6c_002D4e0c_002Daea7_002D9b8455236076/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SearchEngineTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

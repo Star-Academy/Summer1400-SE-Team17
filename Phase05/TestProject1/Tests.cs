@@ -44,7 +44,7 @@ namespace TestProject1
                 mock.Parse("running").Returns("run");
             }
             parser.WordParser = mock;
-            Assert.True(words.SequenceEqual(parser.Parse(sentence)));
+            Assert.True(words.SequenceEqual(parser.Parse(sentence.Trim())));
         }
 
 
