@@ -4,7 +4,6 @@ using System.Linq;
 using edu.stanford.nlp.simple;
 using ikvm.extensions;
 using Phase05;
-
 using Document = edu.stanford.nlp.simple.Document;
 
 
@@ -16,10 +15,8 @@ namespace Parser
 
         public string Parse(string text)
         {
-            
             return _stemmer.StemWord(text);
         }
-
     }
 
     public class SentenceParser : IParser<string[]>
@@ -42,6 +39,7 @@ namespace Parser
                 result.Add(_wordParse.Parse(word));
             }
 
+            result.Remove("");
             return result.ToArray();
         }
     }
@@ -61,7 +59,9 @@ namespace Parser
             var sentences = text.Split('.');
             foreach (var sentence in sentences)
             {
-                parsedResult.UnionWith(_sentenceParser.Parse(sentence));
+                var x = _sentenceParser.Parse(sentence);
+                parsedResult.UnionWith(_sentenceParser.Parse(sentence.Trim()));
+                
             }
 
             return parsedResult.ToArray();
