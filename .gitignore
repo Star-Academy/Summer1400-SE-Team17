@@ -1,10 +1,12 @@
 .DS_Store
 *.class
-*.class
 *.iml
+*.dll
 Phase01-Search/target/*
 Phase01-Search/.idea/*
 Phase01-Search/target/classes/EnglishData/*
-*.dll
 *.pdb
 *.cache
+*.exe
+Phase05/Phase05/Phase05/resources/stanford-corenlp-4.2.0-models-english.jar
+
