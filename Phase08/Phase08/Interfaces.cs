@@ -27,10 +27,15 @@ namespace Phase05
         T Load(string path);
     }
 
-    public interface IDataBase<T,K>
+    public interface IDataBase<T,K,S>
     {
         public bool ContainsKey(K o);
         public HashSet<T> Get(K o);
+
+        public void AddWord(K word);
+
+        public void AddDocumentWord(K word, S document);
+        public void SaveData();
     }
     
 }
