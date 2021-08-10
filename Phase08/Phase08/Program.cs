@@ -8,9 +8,14 @@ namespace Phase05
         private const string DataLocation = "EnglishData/";
         public static void Main(string[] args)
         {
+            Run();
+        }
+
+        private static void Run()
+        {
             SearchEngine searchEngine = new SearchEngine();
             InvertedIndexSearcher invertedIndexSearcher = new InvertedIndexSearcher();
-            invertedIndexSearcher.LoadDictionary(DataLocation);
+            invertedIndexSearcher.LoadDatabase(DataLocation);
             searchEngine.Searcher = invertedIndexSearcher;
             string input = Console.ReadLine();
             foreach (var document in searchEngine.Search(input))

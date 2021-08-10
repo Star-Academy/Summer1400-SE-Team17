@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase05/Phase05/Phase05.csproj": {}
+    "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase08/Phase05/Phase05.csproj": {}
   },
   "projects": {
-    "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase05/Phase05/Phase05.csproj": {
+    "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase08/Phase05/Phase05.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase05/Phase05/Phase05.csproj",
+        "projectUniqueName": "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase08/Phase05/Phase05.csproj",
         "projectName": "Phase05",
-        "projectPath": "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase05/Phase05/Phase05.csproj",
+        "projectPath": "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase08/Phase05/Phase05.csproj",
         "packagesPath": "/Users/siasor88/.nuget/packages/",
-        "outputPath": "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase05/Phase05/obj/",
+        "outputPath": "/Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase08/Phase05/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/siasor88/.nuget/NuGet/NuGet.Config"

@@ -1,7 +1,11 @@
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Parser;
 
 namespace Phase05
@@ -82,7 +86,7 @@ namespace Phase05
 
     public class InvertedIndexSearcher : ISearcher<Document>
     {
-        private Dictionary<string, HashSet<Document>> _dictionary = new Dictionary<string, HashSet<Document>>();
+        private IDataBase<Document,string> _dictionary;
         private IParser<string> _wordParser = new WordParser();
         private IParser<string[]> _documentParser = new DocumentParser();
         private IFileLoader<HashSet<Document>> _fileLoader = new DictionaryLoader();
@@ -102,33 +106,29 @@ namespace Phase05
             set => _documentParser = value;
         }
 
-        public void LoadDictionary(string path)
+        public void LoadDatabase(string path)
         {
-            HashSet<Document> rawData = _fileLoader.Load(path);
-            foreach (var document in rawData)
+            var dictionary = new Database();
+            if (dictionary.Database.EnsureCreated())
             {
-                AddDocumentIndexToDictionary(document);
+                InitData();
             }
+
+            _dictionary = dictionary;
         }
 
-        private void AddDocumentIndexToDictionary(Document document)
+        private void InitData()
         {
-            string documentContent = document.Content;
-            string[] parsedDocument = _documentParser.Parse(documentContent);
-            foreach (var word in parsedDocument)
-            {
-                if (!_dictionary.ContainsKey(word))
-                    _dictionary.Add(word, new HashSet<Document>());
-                _dictionary[word].Add(document);
-            }
+            
         }
+        
 
         public HashSet<Document> Search(string word)
         {
             word = _wordParser.Parse(word);
             if (_dictionary.ContainsKey(word))
             {
-                return _dictionary[word];
+                return _dictionary.Get(word);
             }
 
             return new HashSet<Document>();
@@ -137,18 +137,18 @@ namespace Phase05
 
     public class Document
     {
-        protected bool Equals(Document other)
-        {
-            return DocumentIndex == other.DocumentIndex;
-        }
-
-        public int DocumentIndex { get; }
-        public string Content { get; }
+        public int DocumentIndex { get; set; }
+        public string Content { get; set; }
 
         public Document(int documentIndex, string content)
         {
             DocumentIndex = documentIndex;
             Content = content;
+        }
+
+        public Document()
+        {
+            
         }
 
         public override bool Equals(object obj)
@@ -163,9 +163,13 @@ namespace Phase05
         {
             return DocumentIndex;
         }
+        protected bool Equals(Document other)
+        {
+            return DocumentIndex == other.DocumentIndex;
+        }
+
     }
-
-
+    
     public class DictionaryLoader : IFileLoader<HashSet<Document>>
     {
         public HashSet<Document> Load(string path)
@@ -180,4 +184,82 @@ namespace Phase05
             return result;
         }
     }
+    
+    public class Database : DbContext, IDataBase<Document, string>
+    {
+
+        private static string _connectionString = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            ? @"Server=localhost,1433; Database=Phase08Db; User=sa; Password=0150107021@;Trusted_Connection=True;"
+            : "";
+
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<Word> Words { get; set; }
+        public DbSet<DocumentsWord> DocumentsWords { get; set; }
+        public bool ContainsKey(string o)
+        {
+            return Words.Any(x => x.Content == o);
+        }
+
+        public HashSet<Document> Get(string o)
+        {
+            var wordIds = Words.Where(x => x.Content == o).Select(x => x.WordId).ToList();
+            if (wordIds.Any())
+            {
+                var wordId = wordIds[0];
+                return getDocumentsOfId(wordId);
+            }
+            return new HashSet<Document>();
+        }
+
+        private HashSet<Document> getDocumentsOfId(int wordId)
+        {
+            return DocumentsWords.Where(d => d.WordId == wordId).Select(d => d.Document).ToHashSet();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Document>().HasKey(d => new {d.DocumentIndex});
+            modelBuilder.Entity<Word>().HasKey(w => new {w.WordId});
+            modelBuilder.Entity<DocumentsWord>().HasKey(word => new {word.DocumentId, word.WordId});
+        }
+    }
+
+    public class Word
+    {
+        public int WordId { get; set; }
+        public string Content { get; set; }
+    }
+
+    public class DocumentsWord
+    {
+        public int DocumentId
+        {
+            get;
+            set;
+        }
+        public Document Document { get; set; }
+        public int WordId { get; set; }
+        public Word Word { get; set; }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

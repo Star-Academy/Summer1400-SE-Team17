@@ -26,5 +26,11 @@ namespace Phase05
     {
         T Load(string path);
     }
+
+    public interface IDataBase<T,K>
+    {
+        public bool ContainsKey(K o);
+        public HashSet<T> Get(K o);
+    }
     
 }
