@@ -7,7 +7,7 @@ namespace Phase04
 {
     public class Student
     {
-        public static List<Student> AllStudents { get; set; }
+        
         [JsonPropertyName("StudentNumber")] public int StudentNumber;
         [JsonPropertyName("FirstName")] public string FirstName;
         [JsonPropertyName("LastName")] public string LastName;

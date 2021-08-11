@@ -1,12 +1,11 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+
 namespace Phase04
 {
-    public class JsonManager
+    public class JsonManager<T> : IJsonManage<T>
     {
-        public static T Deserialize<T>(string json)
+        public T Deserialize(string json)
         {
-
             return JsonConvert.DeserializeObject<T>(json);
         }
     }
