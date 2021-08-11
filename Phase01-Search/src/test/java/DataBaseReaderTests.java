@@ -29,8 +29,7 @@ public class DataBaseReaderTests {
         for(Document document : documents)
             if(document.getId() == expectedId)
                 wantedDocument = document;
-        //
-        Assertions.assertEquals(documents.get(0).getContent() , expectedContent);
-        Assertions.assertEquals(documents.get(0).getId() , expectedId);
+        Assertions.assertEquals(wantedDocument.getContent() , expectedContent);
+        Assertions.assertEquals(wantedDocument.getId() , expectedId);
     }
 }

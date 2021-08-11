@@ -20,32 +20,31 @@ import java.util.HashMap;
 public class InvertedIndex {
     @Getter
     private HashMap<String, ArrayList<Data>> dataBase;
-    private static final String INVERTED_INDEX_DIRECTORY = "src/main/resources/data.json";
+    public static final String DATA_JSON = "src/main/resources/data.json";
 
     public InvertedIndex() {
-        this.load();
+        this.load(DATA_JSON);
     }
 
     @SneakyThrows
-    public void load() {
+    public void load(String dataAddr) {
         try {
-            loadDataFromJson();
+            loadDataFromJson(dataAddr);
         } catch (FileNotFoundException e) {
-            loadDataFromFiles();
+            loadDataFromFiles(dataAddr);
         }
     }
 
-    private void loadDataFromJson() throws IOException {
-        FileReader reader = new FileReader(INVERTED_INDEX_DIRECTORY);
+    private void loadDataFromJson(String dataAddr) throws IOException {
+        FileReader reader = new FileReader(dataAddr);
         Type mapType = new TypeToken<HashMap<String, ArrayList<Data>>>() {
         }.getType();
         dataBase = JsonSerializer.fromJson(reader, mapType);
         reader.close();
-
     }
 
-    private void loadDataFromFiles() throws IOException, URISyntaxException {
-        FileWriter writer = new FileWriter(INVERTED_INDEX_DIRECTORY);
+    private void loadDataFromFiles(String dataAddr) throws IOException, URISyntaxException {
+        FileWriter writer = new FileWriter(dataAddr);
         dataBase = getDocuments();
         JsonSerializer.toJson(dataBase, writer);
         writer.close();
@@ -53,7 +52,7 @@ public class InvertedIndex {
 
     private HashMap<String, ArrayList<Data>> getDocuments() throws IOException, URISyntaxException {
         HashMap<String, ArrayList<Data>> dataBase = new HashMap<>();
-        for (Document document : Document.getDocuments()) {
+        for (Document document : Document.getDocuments(Document.getDATA_DIRECTORY())) {
             getDataFromParsedDocument(dataBase, document);
         }
         return dataBase;

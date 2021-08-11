@@ -18,7 +18,7 @@ public class Document {
         this.id = id;
     }
 
-    public static ArrayList<Document> getDocuments() throws IOException, URISyntaxException {
-        return DatabaseReader.getDocsInDirectory(DATA_DIRECTORY);
+    public static ArrayList<Document> getDocuments(String directory) throws IOException, URISyntaxException {
+        return DatabaseReader.getDocsInDirectory(directory);
     }
 }

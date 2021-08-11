@@ -1,18 +1,34 @@
 import data.Data;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import searchtools.InvertedIndex;
-import searchtools.Parser;
-import searchtools.Searcher;
+import searchtools.SearchEngine;
 
+
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.spy;
+
 public class InvertedIndexTests {
-    private final Searcher searcher = new Searcher(new InvertedIndex());
+    private static SearchEngine searcher;
+    public static final String MOCK_DATA_JSON = "src/main/resources/mock-data.json";
+
+    @BeforeEach
+    public void init() {
+        InvertedIndex mockIndex = spy(InvertedIndex.class);
+        doAnswer(invocationOnMock -> {
+            mockIndex.load(MOCK_DATA_JSON);
+            return null;
+        }).when(mockIndex).load(InvertedIndex.DATA_JSON);
+        mockIndex.load(InvertedIndex.DATA_JSON);
+        searcher = new SearchEngine(mockIndex);
+    }
+
     @Test
     public void wholeProcessTest() {
         String command = "male friend old bone -sponge +humidity";
@@ -21,7 +37,6 @@ public class InvertedIndexTests {
         HashSet<Integer> searchResults = searcher.search(command);
         Assertions.assertEquals(expectedResultSize, searchResults.size());
         Assertions.assertTrue(searchResults.contains(expectedResult));
-        System.out.println(Parser.stemWord("hi"));
     }
 
     @Test
@@ -36,6 +51,12 @@ public class InvertedIndexTests {
         Assertions.assertTrue(results.contains(2));
         Assertions.assertTrue(results.contains(3));
     }
+
+    @AfterAll
+    static void deleteMockData() {
+        new File(MOCK_DATA_JSON).delete();
+    }
+
 
     private HashMap<String, ArrayList<Data>> getFirstSample() {
         String firstContent = "car dog doctor!";
@@ -58,7 +79,7 @@ public class InvertedIndexTests {
     }
 
     private void mockDataBase(HashMap<String, ArrayList<Data>> dataBase) throws NoSuchFieldException, IllegalAccessException {
-        Field field = Searcher.class.getDeclaredField("dataBase");
+        Field field = SearchEngine.class.getDeclaredField("dataBase");
         field.setAccessible(true);
         field.set(searcher , dataBase);
     }

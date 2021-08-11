@@ -3,6 +3,7 @@ package data;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.print.Doc;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -15,17 +16,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Getter
-@Setter
+
 public class Data {
 
     private ArrayList<Integer> positions = new ArrayList<>();
     private transient String word;
+    @Setter
     private int indexDocument;
 
-    public Data(String word, ArrayList<Integer> positions, int indexDocument) {
-        this.word = word;
-        this.positions = positions;
-        this.indexDocument = indexDocument;
+    public static Document getDocument(int index) throws IOException, URISyntaxException {
+        Data data = new Data();
+        data.setIndexDocument(index);
+        return data.getDocument();
     }
 
     public Data(String word, int indexDocument) {
@@ -40,6 +42,7 @@ public class Data {
     public Data() {
 
     }
+
 
 
     public Document getDocument() throws IOException, URISyntaxException {
