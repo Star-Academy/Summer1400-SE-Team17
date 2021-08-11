@@ -17,3 +17,4 @@ Phase05/Phase05/Phase05/resources/stanford-corenlp-4.2.0-models-english.jar
 *.info
 *.json
 *.xml
+*.info
