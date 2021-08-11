@@ -14,11 +14,11 @@ namespace Phase04_sia
         {
             get => _executor;
         }
-        
+
         public IReader<string, string> Reader;
 
         public IWriter<string> Writer;
-        
+
         private Executor()
         {
             Reader = new FileReader();
@@ -38,7 +38,8 @@ namespace Phase04_sia
         private void PrintResults(Student[] students, LessonsScore[] scores)
         {
             var results = students.OrderByDescending(s => GetAverage(scores, s))
-                .Select(student => new {Name = student.ToString(), Average = GetAverage(scores, student)}).Take(3).ToList();
+                .Select(student => new {Name = student.ToString(), Average = GetAverage(scores, student)}).Take(3)
+                .ToList();
 
             foreach (var result in results)
             {
@@ -52,7 +53,7 @@ namespace Phase04_sia
         }
     }
 
-    class FileReader : IReader<string, string>
+    internal class FileReader : IReader<string, string>
     {
         public string Read(string filePath)
         {
@@ -60,30 +61,11 @@ namespace Phase04_sia
         }
     }
 
-    class DefaultConsoleWriter : IWriter<string>
+    internal class DefaultConsoleWriter : IWriter<string>
     {
         public void Write(string data)
         {
             Console.WriteLine(data);
         }
-    }
-
-    class Student
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int StudentNumber { get; set; }
-
-        public override string ToString()
-        {
-            return FirstName + "  " + LastName;
-        }
-    }
-
-    class LessonsScore
-    {
-        public int StudentNumber { get; set; }
-        public string Lesson { get; set; }
-        public double Score { get; set; }
     }
 }

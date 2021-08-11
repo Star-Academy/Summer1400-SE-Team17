@@ -9,3 +9,7 @@ Phase01-Search/target/classes/EnglishData/*
 *.cache
 *.pdb
 *.xml
+*.nuget.cache
+*.json
+*.assets.json
+*.dgspec.json
