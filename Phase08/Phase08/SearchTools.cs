@@ -123,6 +123,7 @@ namespace Phase05
             {
                 AddDocumentIndexToDatabase(document);
             }
+
             _dictionary.SaveData();
         }
 
@@ -141,12 +142,7 @@ namespace Phase05
         public HashSet<Document> Search(string word)
         {
             word = _wordParser.Parse(word);
-            if (_dictionary.ContainsKey(word))
-            {
-                return _dictionary.Get(word);
-            }
-
-            return new HashSet<Document>();
+            return _dictionary.Get(word);
         }
     }
 
