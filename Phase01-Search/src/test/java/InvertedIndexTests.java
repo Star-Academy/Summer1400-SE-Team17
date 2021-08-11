@@ -30,7 +30,7 @@ public class InvertedIndexTests {
     }
 
     @Test
-    public void wholeProcessTest() {
+    public void wholeDataProcessTest() {
         String command = "male friend old bone -sponge +humidity";
         int expectedResultSize = 2;
         int expectedResult = 57110;

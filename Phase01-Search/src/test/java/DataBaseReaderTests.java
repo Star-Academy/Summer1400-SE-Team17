@@ -1,11 +1,14 @@
 import data.DatabaseReader;
 import data.Document;
+import executor.ProgramExecutor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
+import org.mockito.Mockito;
+import searchtools.Searcher;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class DataBaseReaderTests {
     @Test
@@ -31,5 +34,6 @@ public class DataBaseReaderTests {
                 wantedDocument = document;
         Assertions.assertEquals(wantedDocument.getContent() , expectedContent);
         Assertions.assertEquals(wantedDocument.getId() , expectedId);
+        Mockito.when(ProgramExecutor.abc()).thenReturn(10);
     }
 }
