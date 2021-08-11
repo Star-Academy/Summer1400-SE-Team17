@@ -148,7 +148,7 @@ namespace TestProject1
             invertedIndex.WordParser = mockedWordParser;
             invertedIndex.DocumentParser = mockedDocumentParser;
             invertedIndex.FileLoader = mockedFileLoader;
-            invertedIndex.LoadDictionary("");
+            invertedIndex.LoadDatabase("");
             
             Assert.True(invertedIndex.Search(searchedWord).SetEquals(result));
         }

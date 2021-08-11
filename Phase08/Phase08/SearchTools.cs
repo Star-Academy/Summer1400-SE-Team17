@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -29,7 +28,8 @@ namespace Phase05
             return SearchIndices(necessaryWords, optionalWords, forbiddenWords);
         }
 
-        private HashSet<Document> SearchIndices(string[] necessaryWords, string[] optionalWords, string[] forbiddenWords)
+        private HashSet<Document> SearchIndices(string[] necessaryWords, string[] optionalWords,
+            string[] forbiddenWords)
         {
             HashSet<Document> result = GetAllWordsMustIncludeSet(necessaryWords);
             result.UnionWith(GetAtLeastOneWordMustIncludeSet(optionalWords));
@@ -86,7 +86,7 @@ namespace Phase05
 
     public class InvertedIndexSearcher : ISearcher<Document>
     {
-        private IDataBase<Document,string> _dictionary;
+        private IDataBase<Document, string, Document> _dictionary;
         private IParser<string> _wordParser = new WordParser();
         private IParser<string[]> _documentParser = new DocumentParser();
         private IFileLoader<HashSet<Document>> _fileLoader = new DictionaryLoader();
@@ -109,19 +109,34 @@ namespace Phase05
         public void LoadDatabase(string path)
         {
             var dictionary = new Database();
+            _dictionary = dictionary;
             if (dictionary.Database.EnsureCreated())
             {
-                InitData();
+                InitData(path);
             }
-
-            _dictionary = dictionary;
         }
 
-        private void InitData()
+        private void InitData(string path)
         {
-            
+            HashSet<Document> rawData = _fileLoader.Load(path);
+            foreach (var document in rawData)
+            {
+                AddDocumentIndexToDatabase(document);
+            }
+            _dictionary.SaveData();
         }
-        
+
+        private void AddDocumentIndexToDatabase(Document document)
+        {
+            string documentContent = document.Content;
+            string[] parsedDocument = _documentParser.Parse(documentContent);
+            foreach (var word in parsedDocument)
+            {
+                if (!_dictionary.ContainsKey(word))
+                    _dictionary.AddWord(word);
+                _dictionary.AddDocumentWord(word, document);
+            }
+        }
 
         public HashSet<Document> Search(string word)
         {
@@ -135,41 +150,7 @@ namespace Phase05
         }
     }
 
-    public class Document
-    {
-        public int DocumentIndex { get; set; }
-        public string Content { get; set; }
 
-        public Document(int documentIndex, string content)
-        {
-            DocumentIndex = documentIndex;
-            Content = content;
-        }
-
-        public Document()
-        {
-            
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Document) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return DocumentIndex;
-        }
-        protected bool Equals(Document other)
-        {
-            return DocumentIndex == other.DocumentIndex;
-        }
-
-    }
-    
     public class DictionaryLoader : IFileLoader<HashSet<Document>>
     {
         public HashSet<Document> Load(string path)
@@ -181,23 +162,25 @@ namespace Phase05
                 string fileContent = File.ReadAllText(fileRelativePath);
                 result.Add(new Document(int.Parse(fileName), fileContent));
             }
+
             return result;
         }
     }
-    
-    public class Database : DbContext, IDataBase<Document, string>
-    {
 
+    public class Database : DbContext, IDataBase<Document, string, Document>
+    {
         private static string _connectionString = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? @"Server=localhost,1433; Database=Phase08Db; User=sa; Password=0150107021@;Trusted_Connection=True;"
-            : "";
+            : @"Server=localhost;Database=Phase08;Trusted_Connection=True;";
 
         public DbSet<Document> Documents { get; set; }
         public DbSet<Word> Words { get; set; }
-        public DbSet<DocumentsWord> DocumentsWords { get; set; }
+        public DbSet<DocumentWord> DocumentsWords { get; set; }
+        private Dictionary<string, Word> NameToWord = new Dictionary<string, Word>();
+
         public bool ContainsKey(string o)
         {
-            return Words.Any(x => x.Content == o);
+            return NameToWord.ContainsKey(o);
         }
 
         public HashSet<Document> Get(string o)
@@ -208,7 +191,28 @@ namespace Phase05
                 var wordId = wordIds[0];
                 return getDocumentsOfId(wordId);
             }
+
             return new HashSet<Document>();
+        }
+
+        public void AddWord(string word)
+        {
+            Word w = new Word(word);
+            NameToWord[word] = w;
+            Words.Add(w);
+        }
+
+        public void AddDocumentWord(string wordName, Document document)
+        {
+            Word word = NameToWord[wordName];
+            DocumentWord documentWord = new DocumentWord(document, word);
+            document.DocumentWords.Add(documentWord);
+            word.DocumentWords.Add(documentWord);
+        }
+
+        public void SaveData()
+        {
+            SaveChanges();
         }
 
         private HashSet<Document> getDocumentsOfId(int wordId)
@@ -223,9 +227,42 @@ namespace Phase05
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Document>().HasKey(d => new {d.DocumentIndex});
+            modelBuilder.Entity<Document>().HasKey(d => new {d.DocumentId});
             modelBuilder.Entity<Word>().HasKey(w => new {w.WordId});
-            modelBuilder.Entity<DocumentsWord>().HasKey(word => new {word.DocumentId, word.WordId});
+            modelBuilder.Entity<DocumentWord>().HasKey(word => new {word.DocumentId, word.WordId});
+        }
+    }
+
+    public class Document
+    {
+        public int DocumentId { get; set; }
+        public int DocumentIndex { get; set; }
+        public string Content { get; set; }
+        public IList<DocumentWord> DocumentWords { get; set; }
+
+        public Document(int documentIndex, string content)
+        {
+            DocumentIndex = documentIndex;
+            Content = content;
+            DocumentWords = new List<DocumentWord>();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Document) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return DocumentIndex;
+        }
+
+        protected bool Equals(Document other)
+        {
+            return DocumentIndex == other.DocumentIndex;
         }
     }
 
@@ -233,33 +270,30 @@ namespace Phase05
     {
         public int WordId { get; set; }
         public string Content { get; set; }
+        public IList<DocumentWord> DocumentWords { get; set; }
+
+        public Word(string content)
+        {
+            DocumentWords = new List<DocumentWord>();
+            Content = content;
+        }
     }
 
-    public class DocumentsWord
+    public class DocumentWord
     {
-        public int DocumentId
-        {
-            get;
-            set;
-        }
+        public int DocumentId { get; set; }
         public Document Document { get; set; }
         public int WordId { get; set; }
         public Word Word { get; set; }
+
+        public DocumentWord(Document document, Word word)
+        {
+            Document = document;
+            Word = word;
+        }
+
+        public DocumentWord()
+        {
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
