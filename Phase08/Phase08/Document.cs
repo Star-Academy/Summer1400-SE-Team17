@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Phase05
 {
     public class Document
     {
+        [Required]
         public int DocumentId { get; set; }
+        [Required]
         public int DocumentIndex { get; set; }
         public string Content { get; set; }
         public IList<DocumentWord> DocumentWords { get; set; }
@@ -37,7 +40,10 @@ namespace Phase05
 
     public class Word
     {
+        [Required]
         public int WordId { get; set; }
+        [Required]
+        [MaxLength(64)]
         public string Content { get; set; }
         public IList<DocumentWord> DocumentWords { get; set; }
 
