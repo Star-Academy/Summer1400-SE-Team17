@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Phase08\Phase08.csproj" />
+      <ProjectReference Include="..\Phase11\Phase11.csproj" />
     </ItemGroup>
 
 </Project>

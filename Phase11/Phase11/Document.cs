@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Phase05
+namespace Phase11
 {
     public class Document
     {
@@ -35,6 +35,11 @@ namespace Phase05
         protected bool Equals(Document other)
         {
             return DocumentIndex == other.DocumentIndex;
+        }
+
+        public override string ToString()
+        {
+            return "ID : " + DocumentId + "\nContent : " + Content;
         }
     }
 
