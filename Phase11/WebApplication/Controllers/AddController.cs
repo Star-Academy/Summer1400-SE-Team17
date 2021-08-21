@@ -17,11 +17,19 @@ namespace WebApplication.Controllers
             _database = dataService.Database;
         }
         [HttpPut]
-        public void Put([FromBody] Document document)
+        public void Put([FromBody] Document1 document)
         {
-            _database.Documents.Add(document);
-            _database.SaveData();
+            Console.WriteLine(document.Content);
+            // _database.Documents.Add(document);
+            // _database.SaveData();
         }
+    }
+
+
+    public class Document1
+    {
+        public int DocumentIndex { get; set; }
+        public string Content { get; set; }
     }
     
 }
