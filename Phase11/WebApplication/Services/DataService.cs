@@ -8,7 +8,6 @@ namespace WebApplication.Services
         private readonly Database _database = new Database();
         private readonly SearchEngine _searcher;
         public Database Database => _database;
-
         public SearchEngine SearchEngine => _searcher;
 
         public DataService()
