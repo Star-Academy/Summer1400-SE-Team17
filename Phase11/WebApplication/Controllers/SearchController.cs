@@ -13,11 +13,12 @@ namespace WebApplication.Controllers
     [Route("api/[controller]")]
     public class SearchController : ControllerBase
     {
+        
         private ISearcher<Document> _searcher;
 
-        public SearchController(DataService dataService)
+        public SearchController(SearchService searchService)
         {
-            _searcher = dataService.SearchEngine;
+            _searcher = searchService.SearchEngine;
         }
         
         [HttpGet]
