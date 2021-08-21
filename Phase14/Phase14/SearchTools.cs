@@ -18,6 +18,7 @@ namespace Phase11
             set => _searcher = value;
         }
 
+        
         public HashSet<Document> Search(string command)
         {
             string[] splitCommands = command.Trim().Split(' ');
