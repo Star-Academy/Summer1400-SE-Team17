@@ -6,3 +6,5 @@ build_property.ProjectTypeGuids =
 build_property.PublishSingleFile = 
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
+build_property.RootNamespace = WebApplication
+build_property.ProjectDir = /Users/siasor88/Documents/GitHub/Summer1400-SE-Team17/Phase11/WebApplication/

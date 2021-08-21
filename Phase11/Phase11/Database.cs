@@ -7,6 +7,7 @@ namespace Phase11
 {
        public class Database : DbContext, IDataBase<Document, string, Document>
     {
+        
         private static string _connectionString = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? @"Server=localhost,1433; Database=Phase08Db; User=sa; Password=0150107021@;"
             : @"Server=localhost;Database=Phase08;Trusted_Connection=True;";
@@ -15,7 +16,8 @@ namespace Phase11
         public DbSet<Word> Words { get; set; }
         public DbSet<DocumentWord> DocumentsWords { get; set; }
         private Dictionary<string, Word> NameToWord = new Dictionary<string, Word>();
-
+        
+        
         public bool ContainsKey(string o)
         {
             return NameToWord.ContainsKey(o);

@@ -5,30 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Phase11;
+using WebApplication.Services;
 
 namespace WebApplication.Controllers
 {
     [ApiController]
-    [Route("search/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class SearchController : ControllerBase
     {
-        private static string DataLocation = "EnglishData/";
-        private static ISearcher<Document> _searcher;
-        private static ISearcher<Document> _invertedIndexSearcher;
-        static SearchController()
+        private ISearcher<Document> _searcher;
+
+        public SearchController(DataService dataService)
         {
-            SearchEngine searchEngine = new SearchEngine();
-            InvertedIndexSearcher indexSearcher =  new InvertedIndexSearcher();
-            indexSearcher.LoadDatabase(DataLocation);
-            searchEngine.Searcher = indexSearcher;
-
-            _searcher = searchEngine;
-            _invertedIndexSearcher = indexSearcher;
+            _searcher = dataService.SearchEngine;
         }
-
         
         [HttpGet]
-        public IEnumerable<KeyValuePair<int , string>> Search([FromQuery] string command)
+        public IEnumerable<KeyValuePair<int , string>> Get([FromQuery] string command)
         {
             var searchResults = _searcher.Search(command);
             return searchResults.Take(10).Select(x => new KeyValuePair<int, string>(x.DocumentId, x.Content));
