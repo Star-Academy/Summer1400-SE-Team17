@@ -7,10 +7,7 @@ import data.JsonSerializer;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -28,19 +25,29 @@ public class InvertedIndex {
 
     @SneakyThrows
     public void load(String dataAddr) {
-        try {
+        if(doesFileExist(dataAddr)) {
             loadDataFromJson(dataAddr);
-        } catch (FileNotFoundException e) {
+        } else {
             loadDataFromFiles(dataAddr);
         }
     }
 
     private void loadDataFromJson(String dataAddr) throws IOException {
         FileReader reader = new FileReader(dataAddr);
-        Type mapType = new TypeToken<HashMap<String, ArrayList<Data>>>() {
-        }.getType();
-        dataBase = JsonSerializer.fromJson(reader, mapType);
-        reader.close();
+        try {
+            Type mapType = new TypeToken<HashMap<String, ArrayList<Data>>>() {
+            }.getType();
+            dataBase = JsonSerializer.fromJson(reader, mapType);
+        } catch (Exception e) {
+
+        } finally {
+            reader.close();
+        }
+    }
+
+    private boolean doesFileExist(String dataAddr) {
+        File f = new File(dataAddr);
+        return f.exists() && f.isFile();
     }
 
     private void loadDataFromFiles(String dataAddr) throws IOException, URISyntaxException {

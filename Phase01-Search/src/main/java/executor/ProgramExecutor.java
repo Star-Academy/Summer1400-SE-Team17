@@ -36,6 +36,7 @@ public class ProgramExecutor {
 
     public void execute() {
         run();
+        reader.close();
     }
 
 
@@ -74,11 +75,11 @@ public class ProgramExecutor {
     private Reader getDefaultReader() {
         return new Reader() {
             private final Scanner scanner = new Scanner(System.in);
-
             @Override
             public String read() {
                 return scanner.nextLine();
             }
+            public void close() { scanner.close(); }
         };
     }
 
