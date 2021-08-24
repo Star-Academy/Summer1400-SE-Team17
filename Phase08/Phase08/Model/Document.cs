@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Phase05
+namespace Phase08.Model
 {
     public class Document
     {
@@ -37,37 +37,5 @@ namespace Phase05
             return DocumentIndex == other.DocumentIndex;
         }
     }
-
-    public class Word
-    {
-        [Required]
-        public int WordId { get; set; }
-        [Required]
-        [MaxLength(64)]
-        public string Content { get; set; }
-        public IList<DocumentWord> DocumentWords { get; set; }
-
-        public Word(string content)
-        {
-            DocumentWords = new List<DocumentWord>();
-            Content = content;
-        }
-    }
-    public class DocumentWord
-    {
-        public int DocumentId { get; set; }
-        public Document Document { get; set; }
-        public int WordId { get; set; }
-        public Word Word { get; set; }
-
-        public DocumentWord(Document document, Word word)
-        {
-            Document = document;
-            Word = word;
-        }
-
-        public DocumentWord()
-        {
-        }
-    }
+    
 }

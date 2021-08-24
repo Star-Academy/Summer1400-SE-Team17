@@ -3,8 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using Xunit;
 using NSubstitute;
-using Parser;
-using Phase05;
+using Phase08;
+using Phase08.Interfaces;
+using Phase08.Model;
 
 namespace TestProject1
 {

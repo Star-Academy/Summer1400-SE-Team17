@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
+using Phase08.Model;
+using Phase08.Interfaces;
 
-namespace Phase05
+namespace Phase08.Model
 {
-       public class Database : DbContext, IDataBase<Document, string, Document>
+    public class Database : DbContext, IDatabase<Document, string, Document>
     {
         private static string _connectionString = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? @"Server=localhost,1433; Database=Phase08Db; User=sa; Password=0150107021@;"
@@ -70,5 +72,4 @@ namespace Phase05
             modelBuilder.Entity<DocumentWord>().HasKey(word => new {word.DocumentId, word.WordId});
         }
     }
-
 }
