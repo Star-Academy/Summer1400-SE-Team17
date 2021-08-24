@@ -1,11 +1,12 @@
-﻿
+﻿using System;
+using Phase11.model;
 
-using System;
 namespace Phase11
 {
     internal class Program
     {
         private const string DataLocation = "EnglishData/";
+
         public static void Main(string[] args)
         {
             Run();

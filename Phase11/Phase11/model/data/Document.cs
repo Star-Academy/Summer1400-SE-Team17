@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Phase11
+namespace Phase11.model.data
 {
     public class Document
     {
-        [Required]
-        public int DocumentId { get; set; }
-        [Required]
-        public int DocumentIndex { get; set; }
+        [Required] public int DocumentId { get; set; }
+        [Required] public int DocumentIndex { get; set; }
         public string Content { get; set; }
         public IList<DocumentWord> DocumentWords { get; set; }
 
@@ -40,39 +38,6 @@ namespace Phase11
         public override string ToString()
         {
             return "ID : " + DocumentId + "\nContent : " + Content;
-        }
-    }
-
-    public class Word
-    {
-        [Required]
-        public int WordId { get; set; }
-        [Required]
-        [MaxLength(64)]
-        public string Content { get; set; }
-        public IList<DocumentWord> DocumentWords { get; set; }
-
-        public Word(string content)
-        {
-            DocumentWords = new List<DocumentWord>();
-            Content = content;
-        }
-    }
-    public class DocumentWord
-    {
-        public int DocumentId { get; set; }
-        public Document Document { get; set; }
-        public int WordId { get; set; }
-        public Word Word { get; set; }
-
-        public DocumentWord(Document document, Word word)
-        {
-            Document = document;
-            Word = word;
-        }
-
-        public DocumentWord()
-        {
         }
     }
 }

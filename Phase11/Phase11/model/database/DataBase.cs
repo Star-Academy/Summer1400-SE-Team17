@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
+using Phase11.model.data;
 
-namespace Phase11
+namespace Phase11.model.database
 {
-       public class Database : DbContext, IDataBase<Document, string, Document>
+    public class DataBase : DbContext, IDataBase<Document, string, Document>
     {
-        
         private static string _connectionString = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? @"Server=localhost,1433; Database=Phase08Db; User=sa; Password=0150107021@;"
             : @"Server=localhost;Database=Phase08;Trusted_Connection=True;";
@@ -16,8 +16,8 @@ namespace Phase11
         public DbSet<Word> Words { get; set; }
         public DbSet<DocumentWord> DocumentsWords { get; set; }
         private Dictionary<string, Word> NameToWord = new Dictionary<string, Word>();
-        
-        
+
+
         public bool ContainsKey(string o)
         {
             return NameToWord.ContainsKey(o);
@@ -72,5 +72,4 @@ namespace Phase11
             modelBuilder.Entity<DocumentWord>().HasKey(word => new {word.DocumentId, word.WordId});
         }
     }
-
 }

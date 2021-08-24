@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Phase11;
+using Phase11.model.database;
 using WebApplication.Services;
 
 namespace WebApplication.Controllers
@@ -10,11 +11,11 @@ namespace WebApplication.Controllers
     public class AddDocController : ControllerBase
     {
         private DataService _dataService;
-        private Database _database;
+        private DataBase _dataBase;
         public AddDocController(DataService dataService)
         {
             _dataService = dataService;
-            _database = dataService.Database;
+            _dataBase = dataService.DataBase;
         }
         [HttpPut]
         public void Put([FromBody] Document1 document)

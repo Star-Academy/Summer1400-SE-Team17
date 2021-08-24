@@ -3,8 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using Xunit;
 using NSubstitute;
-using Parser;
 using Phase11;
+using Phase11.model;
+using Phase11.model.data;
+using Phase11.model.parser;
 
 namespace TestProject1
 {
@@ -20,7 +22,7 @@ namespace TestProject1
         // [InlineData("Playing", "play")]
         public void WordParserTest(string word, string lemma)
         {
-            var parser = new WordParser();
+            var parser = new DefaultWordParser();
             Assert.Equal(lemma, parser.Parse(word));
         }
 

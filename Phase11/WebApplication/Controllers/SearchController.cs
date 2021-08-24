@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Phase11;
+using Phase11.model;
+using Phase11.model.data;
 using WebApplication.Services;
 
 namespace WebApplication.Controllers

@@ -1,5 +1,6 @@
 using System.Text;
-namespace Phase11
+
+namespace Phase11.model.parser
 {
     public class PorterStemmer
     {
