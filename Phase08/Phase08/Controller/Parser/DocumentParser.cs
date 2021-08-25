@@ -6,8 +6,16 @@ namespace Phase08
 {
     public class DocumentParser : IParser<string[]>
     {
-        private IParser<string[]> _sentenceParser = new SentenceParser();
-        
+        private IParser<string[]> _sentenceParser;
+
+        public DocumentParser(ServiceFactory<IParser<string[]>> serviceFactory)
+        {
+            _sentenceParser = serviceFactory.GetService(typeof(DocumentParser));
+        }
+
+        public DocumentParser()
+        {
+        }
 
         public IParser<string[]> SentenceParser
         {

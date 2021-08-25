@@ -8,9 +8,24 @@ namespace Phase08
     public class InvertedIndexSearcher : ISearcher<Document>
     {
         private IDatabase<Document, string, Document> _dictionary;
-        private IParser<string> _wordParser = new WordParser();
-        private IParser<string[]> _documentParser = new DocumentParser();
-        private IFileLoader<HashSet<Document>> _fileLoader = new DictionaryLoader();
+        private IParser<string> _wordParser;
+        private IParser<string[]> _documentParser;
+        private IFileLoader<HashSet<Document>> _fileLoader;
+
+
+        public InvertedIndexSearcher(
+            ServiceFactory<IParser<string[]>> serviceFactory,
+            IParser<string> wordParser,
+            IFileLoader<HashSet<Document>> fileLoader)
+        {
+            _wordParser = wordParser;
+            _documentParser = serviceFactory.GetService(typeof(InvertedIndexSearcher));
+            _fileLoader = fileLoader;
+        }
+
+        public InvertedIndexSearcher()
+        {
+        }
 
         public IFileLoader<HashSet<Document>> FileLoader
         {

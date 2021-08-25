@@ -30,7 +30,7 @@ namespace TestProject1
         [InlineData("Pasha Is Running Late.", new[] {"pasha", "is","run", "late"})]
         public void SentenceParserTest(string sentence, string[] words)
         {
-            var parser = new SentenceParser();
+            
             var mock = Substitute.For<IParser<string>>();
 
             {
@@ -44,7 +44,7 @@ namespace TestProject1
                 mock.Parse("pasha").Returns("pasha");
                 mock.Parse("running").Returns("run");
             }
-            parser.WordParser = mock;
+            var parser = new SentenceParser(mock);
             Assert.True(words.SequenceEqual(parser.Parse(sentence.Trim())));
         }
 

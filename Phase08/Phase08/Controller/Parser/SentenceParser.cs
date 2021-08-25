@@ -1,14 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.DependencyInjection;
 using Phase08.Interfaces;
 
 namespace Phase08
 {
     public class SentenceParser : IParser<string[]>
     {
-        private IParser<string> _wordParse = new WordParser();
+        private IParser<string> _wordParse;
 
+        public SentenceParser(IParser<string> wordParse)
+        {
+            _wordParse = wordParse;
+        }
+
+        
         public IParser<string> WordParser
         {
             set => _wordParse = value;

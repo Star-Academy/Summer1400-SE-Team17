@@ -1,6 +1,9 @@
 ﻿
 
 using System;
+using Phase08.Interfaces;
+using Phase08.Model;
+
 namespace Phase08
 {
     internal class Program
@@ -13,15 +16,15 @@ namespace Phase08
 
         private static void Run()
         {
-            SearchEngine searchEngine = new SearchEngine();
-            InvertedIndexSearcher invertedIndexSearcher = new InvertedIndexSearcher();
-            invertedIndexSearcher.LoadDatabase(DataLocation);
-            searchEngine.Searcher = invertedIndexSearcher;
+            ISearcher<Document> searchEngine = (ISearcher<Document>) HostService.ServiceProvider.GetService(typeof(ISearcher<Document>));
+            
             string input = Console.ReadLine();
             foreach (var document in searchEngine.Search(input))
             {
                 Console.WriteLine($"{document.DocumentIndex} : {document.Content}");
             }
         }
+        
+        
     }
 }

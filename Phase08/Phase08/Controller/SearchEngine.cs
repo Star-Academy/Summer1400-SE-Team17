@@ -7,7 +7,16 @@ namespace Phase08
 {
     public class SearchEngine : ISearcher<Document>
     {
-        private ISearcher<Document> _searcher = new InvertedIndexSearcher();
+        private ISearcher<Document> _searcher;
+
+        public SearchEngine(ISearcher<Document> searcher)
+        {
+            _searcher = searcher;
+        }
+
+        public SearchEngine()
+        {
+        }
 
         public ISearcher<Document> Searcher
         {
