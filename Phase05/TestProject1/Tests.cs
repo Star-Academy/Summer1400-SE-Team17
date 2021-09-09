@@ -153,4 +153,7 @@ namespace TestProject1
             Assert.True(invertedIndex.Search(searchedWord).SetEquals(result));
         }
     }
+    
+    //How To Test View Of An App
+    //How Front eng test their code! 
 }
